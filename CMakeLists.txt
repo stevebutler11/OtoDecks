@@ -9,7 +9,7 @@
 # CMake's behaviour is compatible with the named version. This is a standard CMake command, so more
 # information can be found in the CMake docs.
 
-cmake_minimum_required(VERSION 3.24)
+cmake_minimum_required(VERSION 3.15)
 
 # The top-level CMakeLists.txt file for a project must contain a literal, direct call to the
 # `project()` command. `project()` sets up some helpful variables that describe source/binary
@@ -50,7 +50,7 @@ juce_add_gui_app(OtoDecks
 # include all your JUCE module headers; if you're happy to include module headers directly, you
 # probably don't need to call this.
 
-# juce_generate_juce_header(GuiAppExample)
+juce_generate_juce_header(OtoDecks)
 
 # `target_sources` adds source files to a target. We pass the target that needs the sources as the
 # first argument, then a visibility parameter for the sources which should normally be PRIVATE.
@@ -95,8 +95,17 @@ target_compile_definitions(OtoDecks
 target_link_libraries(OtoDecks
     PRIVATE
         # GuiAppData            # If we'd created a binary data target, we'd link to it here
+        juce::juce_gui_basics
         juce::juce_gui_extra
+        juce::juce_audio_basics
+        juce::juce_audio_devices
+        juce::juce_audio_formats
+        juce::juce_audio_processors
         juce::juce_audio_utils
+        juce::juce_core
+        juce::juce_data_structures
+        juce::juce_events
+        juce::juce_graphics
     PUBLIC
         juce::juce_recommended_config_flags
         juce::juce_recommended_lto_flags
