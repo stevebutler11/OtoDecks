@@ -19,6 +19,7 @@ MainComponent::MainComponent()
         // Specify the number of input and output channels that we want to open
         setAudioChannels (2, 2);
     }
+    addAndMakeVisible(playButton);
 }
 
 MainComponent::~MainComponent()
@@ -48,6 +49,7 @@ void MainComponent::getNextAudioBlock (const juce::AudioSourceChannelInfo& buffe
     // Right now we are not producing any data, in which case we need to clear the buffer
     // (to prevent the output of random noise)
     bufferToFill.clearActiveBufferRegion();
+    std::cout << "MainComponent::getNextAudioBlock" << '\n';
 }
 
 void MainComponent::releaseResources()
@@ -72,4 +74,5 @@ void MainComponent::resized()
     // This is called when the MainContentComponent is resized.
     // If you add any child components, this is where you should
     // update their positions.
+    playButton.setBounds(0, 0, getWidth(), getHeight()/5);
 }
