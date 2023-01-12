@@ -20,6 +20,12 @@ MainComponent::MainComponent()
         setAudioChannels (2, 2);
     }
     addAndMakeVisible(playButton);
+    addAndMakeVisible(stopButton);
+    addAndMakeVisible(volSlider);
+
+    playButton.addListener(this);
+    stopButton.addListener(this);
+    volSlider.addListener(this);
 }
 
 MainComponent::~MainComponent()
@@ -49,7 +55,6 @@ void MainComponent::getNextAudioBlock (const juce::AudioSourceChannelInfo& buffe
     // Right now we are not producing any data, in which case we need to clear the buffer
     // (to prevent the output of random noise)
     bufferToFill.clearActiveBufferRegion();
-    std::cout << "MainComponent::getNextAudioBlock" << '\n';
 }
 
 void MainComponent::releaseResources()
@@ -74,5 +79,28 @@ void MainComponent::resized()
     // This is called when the MainContentComponent is resized.
     // If you add any child components, this is where you should
     // update their positions.
-    playButton.setBounds(0, 0, getWidth(), getHeight()/5);
+    int rowH = getHeight()/5;
+    playButton.setBounds(0, 0, getWidth(), rowH);
+    stopButton.setBounds(0, rowH, getWidth(), rowH);
+    volSlider.setBounds(0, rowH*2, getWidth(), rowH);
+}
+
+void MainComponent::buttonClicked (Button *button)
+{
+    if (button == &playButton)
+    {
+        std::cout << "play button pressed\n";
+    }
+    if (button == &stopButton)
+    {
+        std::cout << "stop button pressed\n";
+    }
+}
+
+void MainComponent::sliderValueChanged (Slider *slider)
+{
+    if (slider == &volSlider)
+    {
+        std::cout << "volume slider value now: " << volSlider.getValue() << "\n";
+    }
 }
