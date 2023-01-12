@@ -20,6 +20,7 @@ public:
     //==============================================================================
     MainComponent();
     ~MainComponent() override;
+    void loadURL(URL audioURL);
 
     //==============================================================================
     void prepareToPlay (int samplesPerBlockExpected, double sampleRate) override;
@@ -45,6 +46,17 @@ private:
     double gain;
     float phase;
     double dphase;
+
+    // for audio file playback
+    juce::AudioFormatManager formatManager;
+    juce::AudioTransportSource transportSource;
+    juce::ResamplingAudioSource resampleSource{&transportSource, false, 2};
+    std::unique_ptr<AudioFormatReaderSource> readerSource;
+    juce::Slider volumeGainSlider;
+    juce::TextButton loadButton;
+    juce::FileChooser fChooser{"Select a file..."};
+
+    juce::Slider speedSlider;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };
