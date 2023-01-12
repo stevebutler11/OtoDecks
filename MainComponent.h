@@ -39,7 +39,12 @@ private:
     // Your private member variables go here...
     juce::TextButton playButton{"play"};
     juce::TextButton stopButton{"stop"};
-    juce::Slider volSlider;
+    juce::Slider gainSlider;
+    juce::Random random;
+    bool playing;
+    double gain;
+    float phase;
+    double dphase;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };

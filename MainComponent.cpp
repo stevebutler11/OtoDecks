@@ -21,11 +21,12 @@ MainComponent::MainComponent()
     }
     addAndMakeVisible(playButton);
     addAndMakeVisible(stopButton);
-    addAndMakeVisible(volSlider);
+    addAndMakeVisible(gainSlider);
 
     playButton.addListener(this);
     stopButton.addListener(this);
-    volSlider.addListener(this);
+    gainSlider.addListener(this);
+    gainSlider.setRange(0, 1);
 }
 
 MainComponent::~MainComponent()
@@ -44,17 +45,34 @@ void MainComponent::prepareToPlay (int samplesPerBlockExpected, double sampleRat
     // but be careful - it will be called on the audio thread, not the GUI thread.
 
     // For more details, see the help for AudioProcessor::prepareToPlay()
+
+    playing = false;
+    gain = gainSlider.getValue();
+    phase = 0;
+    dphase = 0;
 }
 
 void MainComponent::getNextAudioBlock (const juce::AudioSourceChannelInfo& bufferToFill)
 {
-    // Your audio-processing code goes here!
+    if(!playing)
+    {
+        bufferToFill.clearActiveBufferRegion();
+        return;
+    }
 
-    // For more details, see the help for AudioProcessor::getNextAudioBlock()
+    // get L and R channel pointers
+    auto* leftChannel = bufferToFill.buffer->getWritePointer(0, bufferToFill.startSample);
+    auto* rightChannel = bufferToFill.buffer->getWritePointer(1, bufferToFill.startSample);
 
-    // Right now we are not producing any data, in which case we need to clear the buffer
-    // (to prevent the output of random noise)
-    bufferToFill.clearActiveBufferRegion();
+    // fill both channels with random noise
+    for (auto i=0;i<bufferToFill.numSamples; ++i)
+    {
+        auto sample = fmod(phase, 1.0f);
+        phase += fmod(dphase, 0.01f);
+        dphase += 0.0000005f;
+        leftChannel[i] = sample * 0.125 * gain;
+        rightChannel[i] = sample * 0.125 * gain;
+    }
 }
 
 void MainComponent::releaseResources()
@@ -82,25 +100,26 @@ void MainComponent::resized()
     int rowH = getHeight()/5;
     playButton.setBounds(0, 0, getWidth(), rowH);
     stopButton.setBounds(0, rowH, getWidth(), rowH);
-    volSlider.setBounds(0, rowH*2, getWidth(), rowH);
+    gainSlider.setBounds(0, rowH*2, getWidth(), rowH);
 }
 
 void MainComponent::buttonClicked (Button *button)
 {
     if (button == &playButton)
     {
-        std::cout << "play button pressed\n";
+        dphase = 0;
+        playing = true;
     }
     if (button == &stopButton)
     {
-        std::cout << "stop button pressed\n";
+        playing = false;
     }
 }
 
 void MainComponent::sliderValueChanged (Slider *slider)
 {
-    if (slider == &volSlider)
+    if (slider == &gainSlider)
     {
-        std::cout << "volume slider value now: " << volSlider.getValue() << "\n";
+        gain = gainSlider.getValue();
     }
 }
