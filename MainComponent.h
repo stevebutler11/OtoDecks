@@ -6,7 +6,7 @@
 // you could `#include <JuceHeader.h>` here instead, to make all your module headers visible.
 //#include <juce_gui_extra/juce_gui_extra.h>
 #include <JuceHeader.h>
-
+#include "DJAudioPlayer.h"
 //==============================================================================
 /*
     This component lives inside our window, and this is where you should put all
@@ -40,23 +40,21 @@ private:
     // Your private member variables go here...
     juce::TextButton playButton{"play"};
     juce::TextButton stopButton{"stop"};
-    juce::Slider gainSlider;
-    juce::Random random;
+//    juce::Slider gainSlider;
+//    juce::Random random;
     bool playing;
     double gain;
-    float phase;
+//    float phase;
     double dphase;
 
-    // for audio file playback
-    juce::AudioFormatManager formatManager;
-    juce::AudioTransportSource transportSource;
-    juce::ResamplingAudioSource resampleSource{&transportSource, false, 2};
-    std::unique_ptr<AudioFormatReaderSource> readerSource;
     juce::Slider volumeGainSlider;
     juce::TextButton loadButton;
     juce::FileChooser fChooser{"Select a file..."};
 
     juce::Slider speedSlider;
+    juce::Slider posSlider;
+
+    DJAudioPlayer player1;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };
