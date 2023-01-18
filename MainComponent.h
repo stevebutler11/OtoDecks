@@ -7,20 +7,18 @@
 //#include <juce_gui_extra/juce_gui_extra.h>
 #include <JuceHeader.h>
 #include "DJAudioPlayer.h"
+#include "DeckGUI.h"
 //==============================================================================
 /*
     This component lives inside our window, and this is where you should put all
     your controls and content.
 */
-class MainComponent : public juce::AudioAppComponent,
-                      public Button::Listener,
-                      public Slider::Listener
+class MainComponent : public juce::AudioAppComponent
 {
 public:
     //==============================================================================
     MainComponent();
     ~MainComponent() override;
-    void loadURL(URL audioURL);
 
     //==============================================================================
     void prepareToPlay (int samplesPerBlockExpected, double sampleRate) override;
@@ -31,30 +29,16 @@ public:
     void paint (juce::Graphics& g) override;
     void resized() override;
 
-    //==============================================================================
-    void buttonClicked (Button *) override;
-    void sliderValueChanged (Slider *slider) override;
-
 private:
     //==============================================================================
-    // Your private member variables go here...
-    juce::TextButton playButton{"play"};
-    juce::TextButton stopButton{"stop"};
-//    juce::Slider gainSlider;
-//    juce::Random random;
-    bool playing;
-    double gain;
-//    float phase;
-    double dphase;
-
-    juce::Slider volumeGainSlider;
-    juce::TextButton loadButton;
-    juce::FileChooser fChooser{"Select a file..."};
-
-    juce::Slider speedSlider;
-    juce::Slider posSlider;
 
     DJAudioPlayer player1;
+    DeckGUI deckGUI1{&player1};
+
+    DJAudioPlayer player2;
+    DeckGUI deckGUI2{&player2};
+
+    MixerAudioSource mixerSource;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };
