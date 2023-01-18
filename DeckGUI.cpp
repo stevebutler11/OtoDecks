@@ -93,3 +93,16 @@ void DeckGUI::sliderValueChanged(Slider *slider)
         player->setPositionRelative(posSlider.getValue());
     }
 }
+
+bool DeckGUI::isInterestedInFileDrag(const StringArray &files)
+{
+    return true;
+}
+
+void DeckGUI::filesDropped(const StringArray &files, int x, int y)
+{
+    if (files.size() == 1)
+    {
+        player->loadURL(URL{File{files[0]}});
+    }
+}

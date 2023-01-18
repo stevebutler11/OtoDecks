@@ -48,9 +48,10 @@ void MainComponent::getNextAudioBlock(const juce::AudioSourceChannelInfo& buffer
 
 void MainComponent::releaseResources()
 {
+    mixerSource.removeAllInputs();
+    mixerSource.releaseResources();
     player1.releaseResources();
     player2.releaseResources();
-    mixerSource.releaseResources();
 }
 
 //==============================================================================

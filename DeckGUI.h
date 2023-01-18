@@ -6,17 +6,26 @@
 
 class DeckGUI : public juce::Component,
                 public juce::Button::Listener,
-                public juce::Slider::Listener
+                public juce::Slider::Listener,
+                public juce::FileDragAndDropTarget
 {
 public:
     DeckGUI(DJAudioPlayer* player);
     ~DeckGUI();
 
+    //================ Component pure virtual functions ================
     void paint(Graphics&) override;
     void resized() override;
 
-    void buttonClicked (Button *) override;
-    void sliderValueChanged (Slider *slider) override;
+    //================ Button pure virtual functions ================
+    void buttonClicked(Button *) override;
+
+    //================ Slider pure virtual functions ================
+    void sliderValueChanged(Slider *slider) override;
+
+    //================ FileDragAndDropTarget pure virtual functions ================
+    bool isInterestedInFileDrag(const StringArray &files) override;
+    void filesDropped(const StringArray &files, int x, int y) override;
 private:
     juce::TextButton playButton{"PLAY"};
     juce::TextButton stopButton{"STOP"};
