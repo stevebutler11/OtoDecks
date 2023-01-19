@@ -62,7 +62,8 @@ target_sources(OtoDecks
         Main.cpp
         MainComponent.cpp
         DJAudioPlayer.cpp
-        DeckGUI.cpp)
+        DeckGUI.cpp
+        WaveformDisplay.cpp)
 
 # `target_compile_definitions` adds some preprocessor definitions to our target. In a Projucer
 # project, these might be passed in the 'Preprocessor Definitions' field. JUCE modules also make use

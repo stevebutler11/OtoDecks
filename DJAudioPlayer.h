@@ -3,7 +3,7 @@
 #include <JuceHeader.h>
 class DJAudioPlayer : public juce::AudioSource {
 public:
-    DJAudioPlayer();
+    DJAudioPlayer(juce::AudioFormatManager& _formatManager);
     ~DJAudioPlayer();
 
     //==============================================================================
@@ -23,7 +23,7 @@ public:
     void stop();
 
 private:
-    juce::AudioFormatManager formatManager;
+    juce::AudioFormatManager& formatManager;
     juce::AudioTransportSource transportSource;
     std::unique_ptr<AudioFormatReaderSource> readerSource;
     juce::ResamplingAudioSource resampleSource{&transportSource, false, 2};

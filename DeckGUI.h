@@ -3,6 +3,7 @@
 
 #include <JuceHeader.h>
 #include "DJAudioPlayer.h"
+#include "WaveformDisplay.h"
 
 class DeckGUI : public juce::Component,
                 public juce::Button::Listener,
@@ -10,11 +11,13 @@ class DeckGUI : public juce::Component,
                 public juce::FileDragAndDropTarget
 {
 public:
-    DeckGUI(DJAudioPlayer* player);
-    ~DeckGUI();
+    explicit DeckGUI(DJAudioPlayer* player,
+                     AudioFormatManager &formatManagerToUse,
+                     AudioThumbnailCache &cacheToUse);
+    ~DeckGUI() override;
 
     //================ Component pure virtual functions ================
-    void paint(Graphics&) override;
+    void paint(Graphics& g) override;
     void resized() override;
 
     //================ Button pure virtual functions ================
@@ -38,6 +41,8 @@ private:
     DJAudioPlayer* player;
 
     juce::FileChooser fChooser{"Select a file..."};
+
+    WaveformDisplay waveformDisplay;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(DeckGUI)
 };

@@ -1,13 +1,20 @@
 #include "DeckGUI.h"
 
-DeckGUI::DeckGUI(DJAudioPlayer* _player) : player(_player)
+DeckGUI::DeckGUI(DJAudioPlayer* _player,
+                 AudioFormatManager &formatManagerToUse,
+                 AudioThumbnailCache &cacheToUse
+                 ) : player(_player),
+                     waveformDisplay(formatManagerToUse, cacheToUse) // pass cstr args directly to wavfrmDisp
 {
     addAndMakeVisible(playButton);
     addAndMakeVisible(stopButton);
     addAndMakeVisible(loadButton);
+
     addAndMakeVisible(volumeSlider);
     addAndMakeVisible(speedSlider);
     addAndMakeVisible(posSlider);
+
+    addAndMakeVisible(waveformDisplay);
 
     playButton.addListener(this);
     stopButton.addListener(this);
@@ -45,13 +52,14 @@ void DeckGUI::paint(Graphics& g)
 
 void DeckGUI::resized()
 {
-    int rowH = getHeight()/6;
+    int rowH = getHeight()/8;
     playButton.setBounds(0, 0, getWidth(), rowH);
     stopButton.setBounds(0, rowH, getWidth(), rowH);
     posSlider.setBounds(0, rowH*2, getWidth(), rowH);
     volumeSlider.setBounds(0, rowH*3, getWidth(), rowH);
     speedSlider.setBounds(0, rowH*4, getWidth(), rowH);
-    loadButton.setBounds(0, rowH*5, getWidth(), rowH);
+    waveformDisplay.setBounds(0, rowH*5, getWidth(), rowH*2);
+    loadButton.setBounds(0, rowH*7, getWidth(), rowH);
 }
 
 void DeckGUI::buttonClicked(Button *button)
@@ -74,6 +82,7 @@ void DeckGUI::buttonClicked(Button *button)
         {
             auto chosenFile = chooser.getResult();
             player->loadURL(URL{chosenFile});
+            waveformDisplay.loadURL(URL{chosenFile});
         });
     }
 }

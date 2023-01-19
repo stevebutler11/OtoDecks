@@ -32,11 +32,14 @@ public:
 private:
     //==============================================================================
 
-    DJAudioPlayer player1;
-    DeckGUI deckGUI1{&player1};
+    AudioFormatManager formatManager;
+    AudioThumbnailCache thumbnailCache{100};
 
-    DJAudioPlayer player2;
-    DeckGUI deckGUI2{&player2};
+    DJAudioPlayer player1{formatManager};
+    DeckGUI deckGUI1{&player1, formatManager, thumbnailCache};
+
+    DJAudioPlayer player2{formatManager};
+    DeckGUI deckGUI2{&player2, formatManager, thumbnailCache};
 
     MixerAudioSource mixerSource;
 
