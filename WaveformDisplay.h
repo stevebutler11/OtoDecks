@@ -13,6 +13,11 @@ public:
 
     void loadURL(URL audioURL);
 
+    /**
+     * set the relative position of the playhead
+     * @param pos
+     */
+    void setPositionRelative(double pos);
     //================ Component pure virtual functions ================
     void paint(Graphics& g) override;
     void resized() override;
@@ -23,6 +28,7 @@ public:
 private:
     AudioThumbnail audioThumbnail;
     bool fileLoaded;
+    double position;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(WaveformDisplay)
 };
 

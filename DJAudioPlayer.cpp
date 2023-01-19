@@ -94,6 +94,21 @@ void DJAudioPlayer::setPositionRelative(double pos)
     }
 }
 
+double DJAudioPlayer::getPositionRelative()
+{
+    double currentPosInSecs = transportSource.getCurrentPosition();
+    double lengthInSecs = transportSource.getLengthInSeconds();
+
+    //TODO: throw divide by zero error?
+    if (lengthInSecs == 0.0 && currentPosInSecs != 0.0)
+    {
+        std::cout << "DJAudioPlayer::getPositionRelative cannot divide by zero" << std::endl;
+        return 0.0;
+    }
+
+    return currentPosInSecs / lengthInSecs;
+}
+
 void DJAudioPlayer::start()
 {
     transportSource.start();

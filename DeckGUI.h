@@ -8,7 +8,8 @@
 class DeckGUI : public juce::Component,
                 public juce::Button::Listener,
                 public juce::Slider::Listener,
-                public juce::FileDragAndDropTarget
+                public juce::FileDragAndDropTarget,
+                public juce::Timer
 {
 public:
     explicit DeckGUI(DJAudioPlayer* player,
@@ -29,6 +30,9 @@ public:
     //================ FileDragAndDropTarget pure virtual functions ================
     bool isInterestedInFileDrag(const StringArray &files) override;
     void filesDropped(const StringArray &files, int x, int y) override;
+
+    //================ Timer pure virtual functions ================
+    void timerCallback() override;
 private:
     juce::TextButton playButton{"PLAY"};
     juce::TextButton stopButton{"STOP"};
@@ -43,6 +47,8 @@ private:
     juce::FileChooser fChooser{"Select a file..."};
 
     WaveformDisplay waveformDisplay;
+
+    int TIMER_INTERVAL = 100;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(DeckGUI)
 };

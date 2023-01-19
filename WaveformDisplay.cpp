@@ -5,7 +5,7 @@ WaveformDisplay::WaveformDisplay(AudioFormatManager &formatManagerToUse,
                                  ) : audioThumbnail(
                                          1000,
                                          formatManagerToUse,
-                                         cacheToUse), fileLoaded(false)
+                                         cacheToUse), fileLoaded(false), position(0.0)
 {
     audioThumbnail.addChangeListener(this);
 }
@@ -32,6 +32,9 @@ void WaveformDisplay::paint(Graphics& g)
                 audioThumbnail.getTotalLength(),
                 0,
                 1.0f);
+
+        g.setColour(juce::Colours::lightgreen);
+        g.drawRect(position * getWidth(), 0, getWidth() / 30, getHeight());
     }
     else
     {
@@ -56,6 +59,15 @@ void WaveformDisplay::loadURL(URL audioURL)
     else
     {
         std::cout << "WaveformDisplay::loadURL load error" << std::endl;
+    }
+}
+
+void WaveformDisplay::setPositionRelative(double pos)
+{
+    if (position != pos)
+    {
+        position = pos;
+        repaint();
     }
 }
 
