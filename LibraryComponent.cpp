@@ -1,6 +1,6 @@
-#include "PlaylistComponent.h"
+#include "LibraryComponent.h"
 
-PlaylistComponent::PlaylistComponent()
+LibraryComponent::LibraryComponent()
 {
     trackTitles.emplace_back("Track 1");
     trackTitles.emplace_back("Track 2");
@@ -16,12 +16,12 @@ PlaylistComponent::PlaylistComponent()
     tableComponent.setModel(this);
 }
 
-PlaylistComponent::~PlaylistComponent()
+LibraryComponent::~LibraryComponent()
 {
 
 }
 
-void PlaylistComponent::paint(Graphics& g)
+void LibraryComponent::paint(Graphics& g)
 {
     g.fillAll(getLookAndFeel().findColour(ResizableWindow::backgroundColourId));
 
@@ -30,23 +30,23 @@ void PlaylistComponent::paint(Graphics& g)
 
     g.setColour(Colours::white);
     g.setFont(14.0f);
-    g.drawText("PlaylistComponent",
+    g.drawText("LibraryComponent",
                getLocalBounds(),
                Justification::centred,
                true);
 }
 
-void PlaylistComponent::resized()
+void LibraryComponent::resized()
 {
     tableComponent.setBounds(0, 0, getWidth(), getHeight());
 }
 
-int PlaylistComponent::getNumRows()
+int LibraryComponent::getNumRows()
 {
     return trackTitles.size();
 }
 
-void PlaylistComponent::paintRowBackground(Graphics& g, int rowNumber, int width, int height, bool rowIsSelected)
+void LibraryComponent::paintRowBackground(Graphics& g, int rowNumber, int width, int height, bool rowIsSelected)
 {
     if (rowIsSelected)
     {
@@ -58,7 +58,7 @@ void PlaylistComponent::paintRowBackground(Graphics& g, int rowNumber, int width
     }
 }
 
-void PlaylistComponent::paintCell(Graphics& g, int rowNumber, int columnId, int width, int height, bool rowIsSelected)
+void LibraryComponent::paintCell(Graphics& g, int rowNumber, int columnId, int width, int height, bool rowIsSelected)
 {
     g.drawText(trackTitles[rowNumber],
                2,
@@ -69,8 +69,8 @@ void PlaylistComponent::paintCell(Graphics& g, int rowNumber, int columnId, int 
                true);
 }
 
-Component* PlaylistComponent::refreshComponentForCell(int rowNumber, int columnId, bool isRowSelected,
-                                   Component *existingComponentToUpdate)
+Component* LibraryComponent::refreshComponentForCell(int rowNumber, int columnId, bool isRowSelected,
+                                                     Component *existingComponentToUpdate)
 {
     if (columnId == 2)
     {
@@ -89,7 +89,7 @@ Component* PlaylistComponent::refreshComponentForCell(int rowNumber, int columnI
     return existingComponentToUpdate;
 }
 
-void PlaylistComponent::buttonClicked(Button* button)
+void LibraryComponent::buttonClicked(Button* button)
 {
     auto rowIndex = std::stoi(button->getComponentID().toStdString());
     std::cout << trackTitles[rowIndex] << " clicked" << std::endl;

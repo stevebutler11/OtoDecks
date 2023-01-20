@@ -1,18 +1,18 @@
-#ifndef GUI_APP_EXAMPLE_PLAYLISTCOMPONENT_H
-#define GUI_APP_EXAMPLE_PLAYLISTCOMPONENT_H
+#ifndef GUI_APP_EXAMPLE_LIBRARYCOMPONENT_H
+#define GUI_APP_EXAMPLE_LIBRARYCOMPONENT_H
 
 #include <JuceHeader.h>
 #include <vector>
 #include <string>
 
-class PlaylistComponent : public juce::Component,
-                          public TableListBoxModel,
-                          public Button::Listener
+class LibraryComponent : public juce::Component,
+                         public TableListBoxModel,
+                         public Button::Listener
 {
 public:
 
-    PlaylistComponent();
-    ~PlaylistComponent() override;
+    LibraryComponent();
+    ~LibraryComponent() override;
 
     //================ Component pure virtual functions ================
     void paint(Graphics& g) override;
@@ -32,8 +32,8 @@ private:
     TableListBox tableComponent;
     std::vector<std::string> trackTitles;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PlaylistComponent)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(LibraryComponent)
 };
 
 
-#endif //GUI_APP_EXAMPLE_PLAYLISTCOMPONENT_H
+#endif //GUI_APP_EXAMPLE_LIBRARYCOMPONENT_H

@@ -8,7 +8,7 @@
 #include <JuceHeader.h>
 #include "DJAudioPlayer.h"
 #include "DeckGUI.h"
-#include "PlaylistComponent.h"
+#include "LibraryComponent.h"
 //==============================================================================
 /*
     This component lives inside our window, and this is where you should put all
@@ -44,7 +44,7 @@ private:
 
     MixerAudioSource mixerSource;
 
-    PlaylistComponent playlistComponent;
+    LibraryComponent playlistComponent;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };
