@@ -120,5 +120,6 @@ void DeckGUI::filesDropped(const StringArray &files, int x, int y)
 
 void DeckGUI::timerCallback()
 {
+    //TODO: potentially change setposrel and getposrel to actual seconds rather than relative
     waveformDisplay.setPositionRelative(player->getPositionRelative());
 }

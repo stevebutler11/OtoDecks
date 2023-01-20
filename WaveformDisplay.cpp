@@ -31,7 +31,7 @@ void WaveformDisplay::paint(Graphics& g)
                 0,
                 audioThumbnail.getTotalLength(),
                 0,
-                1.0f);
+                0.5f);
 
         g.setColour(juce::Colours::lightgreen);
         g.drawRect(position * getWidth(), 0, getWidth() / 30, getHeight());
