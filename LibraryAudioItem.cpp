@@ -38,6 +38,7 @@ double LibraryAudioItem::getDuration() const
 
 std::string LibraryAudioItem::getDurationFormatted() const
 {
+    //TODO: zero pad the seconds
     int mins = duration / 60;
     int remaining_secs = std::fmod(duration, 60);
 

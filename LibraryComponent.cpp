@@ -1,4 +1,5 @@
 #include "LibraryComponent.h"
+#include <algorithm>
 
 LibraryComponent::LibraryComponent(AudioFormatManager& _formatManager, DeckLoader& _deckLoader
                             ) : formatManager(_formatManager), deckloader(_deckLoader)
@@ -161,6 +162,87 @@ Component* LibraryComponent::refreshComponentForCell(int rowNumber, int columnId
             break;
     }
     return existingComponentToUpdate;
+}
+
+void LibraryComponent::sortOrderChanged(int newSortColumnId, bool isForwards)
+{
+    // TODO: tidy this up,
+    // potentially create enum class on LibraryAudioItem for column headings -> column data?
+    // then create a map of int (enum val), int (isForwards) -> comparator function?
+
+    switch (newSortColumnId)
+    {
+        case 1:
+            if (isForwards)
+            {
+                std::sort(libraryItems.begin(), libraryItems.end(),[](
+                        const LibraryAudioItem& a,
+                        const LibraryAudioItem& b
+                        ){return a.getFileName() < b.getFileName();});
+                break;
+            }
+            std::sort(libraryItems.begin(), libraryItems.end(),[](
+                    const LibraryAudioItem& a,
+                    const LibraryAudioItem& b
+            ){return a.getFileName() > b.getFileName();});
+            break;
+        case 2:
+            if (isForwards)
+            {
+                std::sort(libraryItems.begin(), libraryItems.end(),[](
+                        const LibraryAudioItem& a,
+                        const LibraryAudioItem& b
+                ){return a.getDuration() < b.getDuration();});
+                break;
+            }
+            std::sort(libraryItems.begin(), libraryItems.end(),[](
+                    const LibraryAudioItem& a,
+                    const LibraryAudioItem& b
+            ){return a.getDuration() > b.getDuration();});
+            break;
+        case 3:
+            if (isForwards)
+            {
+                std::sort(libraryItems.begin(), libraryItems.end(),[](
+                        const LibraryAudioItem& a,
+                        const LibraryAudioItem& b
+                ){return a.getExtension() < b.getExtension();});
+                break;
+            }
+            std::sort(libraryItems.begin(), libraryItems.end(),[](
+                    const LibraryAudioItem& a,
+                    const LibraryAudioItem& b
+            ){return a.getExtension() > b.getExtension();});
+            break;
+        case 4:
+            if (isForwards)
+            {
+                std::sort(libraryItems.begin(), libraryItems.end(),[](
+                        const LibraryAudioItem& a,
+                        const LibraryAudioItem& b
+                ){return a.getKey() < b.getKey();});
+                break;
+            }
+            std::sort(libraryItems.begin(), libraryItems.end(),[](
+                    const LibraryAudioItem& a,
+                    const LibraryAudioItem& b
+            ){return a.getKey() > b.getKey();});
+            break;
+        case 5:
+            if (isForwards)
+            {
+                std::sort(libraryItems.begin(), libraryItems.end(),[](
+                        const LibraryAudioItem& a,
+                        const LibraryAudioItem& b
+                ){return a.getBPM() < b.getBPM();});
+                break;
+            }
+            std::sort(libraryItems.begin(), libraryItems.end(),[](
+                    const LibraryAudioItem& a,
+                    const LibraryAudioItem& b
+            ){return a.getBPM() > b.getBPM();});
+            break;
+    }
 }
 
 void LibraryComponent::buttonClicked(Button* button)

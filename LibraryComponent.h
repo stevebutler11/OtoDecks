@@ -28,6 +28,7 @@ public:
     void paintCell(Graphics &, int rowNumber, int columnId, int width, int height, bool rowIsSelected) override;
     Component* refreshComponentForCell(int rowNumber, int columnId, bool isRowSelected,
                                        Component *existingComponentToUpdate) override;
+    void sortOrderChanged(int newSortColumnId, bool isForwards) override;
 
     //================ Button::Listener pure virtual functions ================
     void buttonClicked(Button* button) override;
