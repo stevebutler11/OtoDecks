@@ -1,14 +1,22 @@
 #include "LibraryComponent.h"
 
-LibraryComponent::LibraryComponent(juce::AudioFormatManager& _formatManager) : formatManager(_formatManager)
+LibraryComponent::LibraryComponent(AudioFormatManager& _formatManager, DeckLoader& _deckLoader
+                            ) : formatManager(_formatManager), deckloader(_deckLoader)
 {
     addAndMakeVisible(addItemsButton);
     addAndMakeVisible(tableComponent);
 
     addItemsButton.addListener(this);
 
-    tableComponent.getHeader().addColumn("Track Title", 1, 400);
-    tableComponent.getHeader().addColumn("", 2, 200);
+    tableComponent.getHeader().addColumn("Track Title", 1, 300);
+    tableComponent.getHeader().addColumn("Duration", 2, 80);
+    tableComponent.getHeader().addColumn("Extension", 3, 80);
+    tableComponent.getHeader().addColumn("Key", 4, 80);
+    tableComponent.getHeader().addColumn("BPM", 5, 80);
+    tableComponent.getHeader().addColumn("Load To Left Deck", 6, 150);
+    tableComponent.getHeader().addColumn("Load To Right Deck", 7, 150);
+    tableComponent.getHeader().addColumn("Remove", 8, 80);
+
     tableComponent.setModel(this);
 }
 
@@ -58,31 +66,99 @@ void LibraryComponent::paintRowBackground(Graphics& g, int rowNumber, int width,
 
 void LibraryComponent::paintCell(Graphics& g, int rowNumber, int columnId, int width, int height, bool rowIsSelected)
 {
-    g.drawText(libraryItems[rowNumber].getFileName(),
-               2,
-               0,
-               width - 4,
-               height,
-               Justification::centredLeft,
-               true);
+    switch (columnId)
+    {
+        case 1:
+            g.drawText(libraryItems[rowNumber].getFileName(),
+                       2,
+                       0,
+                       width - 4,
+                       height,
+                       Justification::centredLeft,
+                       true);
+            break;
+        case 2:
+            g.drawText(libraryItems[rowNumber].getDurationFormatted(),
+                       2,
+                       0,
+                       width - 4,
+                       height,
+                       Justification::centredRight,
+                       true);
+            break;
+        case 3:
+            g.drawText(libraryItems[rowNumber].getExtension(),
+                       2,
+                       0,
+                       width - 4,
+                       height,
+                       Justification::centredRight,
+                       true);
+            break;
+        case 4:
+            g.drawText(libraryItems[rowNumber].getKey(),
+                       2,
+                       0,
+                       width - 4,
+                       height,
+                       Justification::centredRight,
+                       true);
+            break;
+        case 5:
+            g.drawText(String {libraryItems[rowNumber].getBPM()},
+                       2,
+                       0,
+                       width - 4,
+                       height,
+                       Justification::centredRight,
+                       true);
+            break;
+    }
+
 }
 
 Component* LibraryComponent::refreshComponentForCell(int rowNumber, int columnId, bool isRowSelected,
                                                      Component *existingComponentToUpdate)
 {
-    if (columnId == 2)
+    switch (columnId)
     {
-        // if the component hasn't been created yet
-        if (existingComponentToUpdate == nullptr)
-        {
-            auto* textBtn = new TextButton{"PLAY"};
-            textBtn->addListener(this);
+        case 6:
+            if (existingComponentToUpdate == nullptr)
+            {
+                auto* leftDeckBtn = new TextButton{"Load To Left Deck"};
+                leftDeckBtn->addListener(this);
 
-            String id{std::to_string(rowNumber)};
-            textBtn->setComponentID(id);
+                String id{std::to_string(rowNumber)};
+                leftDeckBtn->setComponentID(id);
 
-            existingComponentToUpdate = textBtn;
-        }
+                existingComponentToUpdate = leftDeckBtn;
+            }
+            break;
+        case 7:
+            if (existingComponentToUpdate == nullptr)
+            {
+                auto* rightDeckBtn = new TextButton{"Load To Right Deck"};
+                rightDeckBtn->addListener(this);
+
+                String id{std::to_string(rowNumber)};
+                rightDeckBtn->setComponentID(id);
+
+                existingComponentToUpdate = rightDeckBtn;
+            }
+            break;
+        case 8:
+            // if the component hasn't been created yet
+            if (existingComponentToUpdate == nullptr)
+            {
+                auto* textBtn = new TextButton{"Remove"};
+                textBtn->addListener(this);
+
+                String id{std::to_string(rowNumber)};
+                textBtn->setComponentID(id);
+
+                existingComponentToUpdate = textBtn;
+            }
+            break;
     }
     return existingComponentToUpdate;
 }
@@ -115,7 +191,24 @@ void LibraryComponent::buttonClicked(Button* button)
     else
     {
         auto rowIndex = std::stoi(button->getComponentID().toStdString());
-        std::cout << libraryItems[rowIndex].getFileName() << " clicked" << std::endl;
+
+        if (button->getButtonText() == "Remove")
+        {
+            // erase takes an iterator as an arg so offset from the beginning by rowIndex amt
+            libraryItems.erase(libraryItems.begin() + rowIndex);
+            // refresh the table data to update on screen
+            this->tableComponent.updateContent();
+        }
+        else if (button->getButtonText() == "Load To Left Deck")
+        {
+            auto fl = libraryItems[rowIndex].getFile();
+            deckloader.loadLeft(fl);
+        }
+        else if (button->getButtonText() == "Load To Right Deck")
+        {
+            auto fl = libraryItems[rowIndex].getFile();
+            deckloader.loadRight(fl);
+        }
     }
 }
 

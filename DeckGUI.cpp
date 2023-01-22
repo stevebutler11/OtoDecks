@@ -40,6 +40,13 @@ DeckGUI::~DeckGUI()
     stopTimer();
 }
 
+void DeckGUI::loadFile(File& file)
+{
+    player->loadFile(file);
+    //TODO: change waveform to load from file rather than URL
+    waveformDisplay.loadURL(URL{file});
+}
+
 void DeckGUI::paint(Graphics& g)
 {
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
@@ -83,8 +90,7 @@ void DeckGUI::buttonClicked(Button *button)
         fChooser.launchAsync(fileChooserFlags, [this](const FileChooser& chooser)
         {
             auto chosenFile = chooser.getResult();
-            player->loadURL(URL{chosenFile});
-            waveformDisplay.loadURL(URL{chosenFile});
+            loadFile(chosenFile);
         });
     }
 }
@@ -114,7 +120,8 @@ void DeckGUI::filesDropped(const StringArray &files, int x, int y)
 {
     if (files.size() == 1)
     {
-        player->loadURL(URL{File{files[0]}});
+        auto file = File{files[0]};
+        loadFile(file);
     }
 }
 

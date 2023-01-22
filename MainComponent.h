@@ -9,6 +9,7 @@
 #include "DJAudioPlayer.h"
 #include "DeckGUI.h"
 #include "LibraryComponent.h"
+#include "DeckLoader.h"
 //==============================================================================
 /*
     This component lives inside our window, and this is where you should put all
@@ -44,7 +45,8 @@ private:
 
     MixerAudioSource mixerSource;
 
-    LibraryComponent libraryComponent{formatManager};
+    DeckLoader deckLoader{&deckGUI1, &deckGUI2};
+    LibraryComponent libraryComponent{formatManager, deckLoader};
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };

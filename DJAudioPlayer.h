@@ -8,7 +8,7 @@ public:
     explicit DJAudioPlayer(juce::AudioFormatManager& _formatManager);
     ~DJAudioPlayer() override;
 
-    void loadURL(URL audioURL);
+    void loadFile(const File& file);
     void setGain(double gain);
     void setSpeed(double ratio);
     void setPositionRelative(double pos);

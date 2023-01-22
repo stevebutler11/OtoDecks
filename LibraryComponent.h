@@ -4,7 +4,9 @@
 #include <JuceHeader.h>
 #include <vector>
 #include <string>
+#include "DJAudioPlayer.h"
 #include "LibraryAudioItem.h"
+#include "DeckLoader.h"
 
 class LibraryComponent : public juce::Component,
                          public TableListBoxModel,
@@ -12,7 +14,7 @@ class LibraryComponent : public juce::Component,
 {
 public:
 
-    explicit LibraryComponent(juce::AudioFormatManager& _formatManager);
+    LibraryComponent(juce::AudioFormatManager& _formatManager, DeckLoader& deckLoader);
     ~LibraryComponent() override;
 
     //================ Component pure virtual functions ================
@@ -33,6 +35,7 @@ private:
     void addFileToLibrary(File& file);
     juce::FileChooser fChooser{"Select file(s)...", File(), "*.mp3"};
     juce::AudioFormatManager& formatManager;
+    DeckLoader deckloader;
     TableListBox tableComponent;
     std::vector<LibraryAudioItem> libraryItems;
     juce::TextButton addItemsButton{"+ ADD TO LIBRARY"};

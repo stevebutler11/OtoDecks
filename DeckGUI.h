@@ -17,6 +17,8 @@ public:
                      AudioThumbnailCache &cacheToUse);
     ~DeckGUI() override;
 
+    void loadFile(File& file);
+
     //================ Component pure virtual functions ================
     void paint(Graphics& g) override;
     void resized() override;

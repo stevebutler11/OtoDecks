@@ -13,7 +13,13 @@ public:
 
     void setKey(std::string& key);
     void setBPM(double bpm);
-    [[nodiscard]] std::string getFileName() const;
+    File getFile();
+    std::string getFileName() const;
+    double getDuration() const;
+    std::string getDurationFormatted() const;
+    std::string getExtension() const;
+    std::string getKey() const;
+    double getBPM() const;
 private:
     File file;
     std::string fileName;

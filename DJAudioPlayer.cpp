@@ -31,10 +31,9 @@ void DJAudioPlayer::releaseResources()
     resampleSource.releaseResources();
 }
 
-void DJAudioPlayer::loadURL(URL audioURL)
+void DJAudioPlayer::loadFile(const File& file)
 {
-    auto* reader = formatManager.createReaderFor(audioURL.createInputStream(
-            URL::InputStreamOptions(URL::ParameterHandling::inAddress)));
+    auto* reader = formatManager.createReaderFor(file);
 
     if (reader != nullptr)
     {
