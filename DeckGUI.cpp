@@ -121,7 +121,19 @@ void DeckGUI::filesDropped(const StringArray &files, int x, int y)
     if (files.size() == 1)
     {
         auto file = File{files[0]};
-        loadFile(file);
+        //TODO include more file types?
+        if (file.getFileExtension() == ".mp3")
+        {
+            loadFile(file);
+        }
+        else
+        {
+            std::cout << "incorrect file type" << std::endl;
+        }
+    }
+    else
+    {
+        std::cout << "too many files" << std::endl;
     }
 }
 
