@@ -30,6 +30,7 @@ public:
     void buttonClicked(Button* button) override;
 
 private:
+    void addFileToLibrary(File& file);
     juce::FileChooser fChooser{"Select file(s)...", File(), "*.mp3"};
     juce::AudioFormatManager& formatManager;
     TableListBox tableComponent;

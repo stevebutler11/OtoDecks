@@ -91,36 +91,18 @@ void LibraryComponent::buttonClicked(Button* button)
 {
     if (button == &addItemsButton)
     {
-        // get file(s)
-        auto fileChooserFlags =
-                FileBrowserComponent::canSelectMultipleItems;
-
-        fChooser.launchAsync(fileChooserFlags, [this](const FileChooser& chooser)
+        fChooser.launchAsync(FileBrowserComponent::canSelectMultipleItems, [this](const FileChooser& chooser)
         {
             auto chosenFiles = chooser.getResults();
 
-            // iterate through files
             for (auto& file : chosenFiles)
             {
+                // try to add the file to the current audio library collection
                 try
                 {
-                    // try to create LibraryAudioItem from file
-                    auto* reader = formatManager.createReaderFor(file);
-                    auto duration = reader->lengthInSamples / reader->sampleRate;
-
-                    // delete reader as memory has been allocated for it above
-                    delete reader;
-
-                    auto fileName = file.getFileName().toStdString();
-                    auto ext = file.getFileExtension().toStdString();
-
-                    // since lai is created with make_unique, it is deleted with the current scope
-                    auto lai = std::make_unique<LibraryAudioItem>(
-                            LibraryAudioItem{file, fileName, duration, ext});
-
-                    // append to libraryItems
-                    libraryItems.push_back(*lai);
+                    addFileToLibrary(file);
                 }
+                //TODO: show message on screen? maybe using NativeMessageBox?
                 catch (const std::exception& e)
                 {
                     std::cout << "LibraryComponent::buttonClicked: " << e.what() << std::endl;
@@ -135,4 +117,24 @@ void LibraryComponent::buttonClicked(Button* button)
         auto rowIndex = std::stoi(button->getComponentID().toStdString());
         std::cout << libraryItems[rowIndex].getFileName() << " clicked" << std::endl;
     }
+}
+
+void LibraryComponent::addFileToLibrary(File& file)
+{
+    // try to create LibraryAudioItem from file
+    auto* reader = formatManager.createReaderFor(file);
+    auto duration = reader->lengthInSamples / reader->sampleRate;
+
+    // delete reader as memory has been allocated for it above
+    delete reader;
+
+    auto fileName = file.getFileName().toStdString();
+    auto ext = file.getFileExtension().toStdString();
+
+    // since lai is created with make_unique, it is deleted with the current scope
+    auto lai = std::make_unique<LibraryAudioItem>(
+            LibraryAudioItem{file, fileName, duration, ext});
+
+    // append to libraryItems
+    libraryItems.push_back(*lai);
 }
