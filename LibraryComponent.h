@@ -4,6 +4,7 @@
 #include <JuceHeader.h>
 #include <vector>
 #include <string>
+#include "LibraryAudioItem.h"
 
 class LibraryComponent : public juce::Component,
                          public TableListBoxModel,
@@ -11,7 +12,7 @@ class LibraryComponent : public juce::Component,
 {
 public:
 
-    LibraryComponent();
+    explicit LibraryComponent(juce::AudioFormatManager& _formatManager);
     ~LibraryComponent() override;
 
     //================ Component pure virtual functions ================
@@ -29,8 +30,11 @@ public:
     void buttonClicked(Button* button) override;
 
 private:
+    juce::FileChooser fChooser{"Select file(s)...", File(), "*.mp3"};
+    juce::AudioFormatManager& formatManager;
     TableListBox tableComponent;
-    std::vector<std::string> trackTitles;
+    std::vector<LibraryAudioItem> libraryItems;
+    juce::TextButton addItemsButton{"+ ADD TO LIBRARY"};
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(LibraryComponent)
 };
