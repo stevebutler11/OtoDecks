@@ -212,6 +212,38 @@ void LibraryComponent::buttonClicked(Button* button)
     }
 }
 
+bool LibraryComponent::isInterestedInFileDrag(const StringArray &files)
+{
+    return true;
+}
+
+void LibraryComponent::filesDropped(const StringArray &files, int x, int y)
+{
+    for (auto const& fl : files)
+    {
+        auto file = File{fl};
+        //TODO include more file types?
+        if (file.getFileExtension() == ".mp3")
+        {
+            // try to add the file to the current audio library collection
+            try
+            {
+                addFileToLibrary(file);
+            }
+                //TODO: show message on screen? maybe using NativeMessageBox?
+            catch (const std::exception& e)
+            {
+                std::cout << "LibraryComponent::filesDropped: " << e.what() << std::endl;
+            }
+        }
+        else
+        {
+            std::cout << "incorrect file type" << std::endl;
+        }
+    }
+    tableComponent.updateContent();
+}
+
 void LibraryComponent::addFileToLibrary(File& file)
 {
     // try to create LibraryAudioItem from file

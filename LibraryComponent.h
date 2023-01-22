@@ -10,7 +10,8 @@
 
 class LibraryComponent : public juce::Component,
                          public TableListBoxModel,
-                         public Button::Listener
+                         public Button::Listener,
+                         public juce::FileDragAndDropTarget
 {
 public:
 
@@ -30,6 +31,10 @@ public:
 
     //================ Button::Listener pure virtual functions ================
     void buttonClicked(Button* button) override;
+
+    //================ FileDragAndDropTarget pure virtual functions ================
+    bool isInterestedInFileDrag(const StringArray &files) override;
+    void filesDropped(const StringArray &files, int x, int y) override;
 
 private:
     void addFileToLibrary(File& file);

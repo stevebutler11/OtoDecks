@@ -20,7 +20,7 @@
 - ~~remove button impl. on each row~~
 - ~~refactor project to add a deckLoader class, to facilitate loading decks from the libraryComponent~~
 - ~~impl. load buttons on each row, for left and right decks~~
-- add drag and drop functionality (from native file explorer to the library)
+- ~~add drag and drop functionality (from native file explorer to the library)~~
 - add drag and drop functionality (from library to an individual deck)
 - add search functionality
 - add sort functionality
