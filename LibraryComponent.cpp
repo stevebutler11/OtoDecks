@@ -1,5 +1,6 @@
-#include "LibraryComponent.h"
 #include <algorithm>
+#include "LibraryComponent.h"
+#include "XmlParser.h"
 
 LibraryComponent::LibraryComponent(AudioFormatManager& _formatManager, DeckLoader& _deckLoader
                             ) : formatManager(_formatManager), deckloader(_deckLoader)
@@ -19,11 +20,14 @@ LibraryComponent::LibraryComponent(AudioFormatManager& _formatManager, DeckLoade
     tableComponent.getHeader().addColumn("Remove", 8, 80);
 
     tableComponent.setModel(this);
+
+    // try load persistent data
+    loadXmlFile();
 }
 
 LibraryComponent::~LibraryComponent()
 {
-
+    saveToXmlFile();
 }
 
 void LibraryComponent::paint(Graphics& g)
@@ -344,4 +348,45 @@ void LibraryComponent::addFileToLibrary(File& file)
 
     // append to libraryItems
     libraryItems.push_back(*lai);
+}
+
+void LibraryComponent::loadXmlFile()
+{
+    if (xmlFile.existsAsFile())
+    {
+        try
+        {
+            XmlParser::loadXmlFile(xmlFile, libraryItems);
+        }
+        catch (std::runtime_error& e)
+        {
+            //TODO: maybe push message to screen?
+            std::cout << e.what() << std::endl;
+        }
+        catch(...)
+        {
+            std::cout << "problem loading xml file data" << std::endl;
+        }
+    }
+}
+
+void LibraryComponent::saveToXmlFile()
+{
+    // if file already exists, .create() does nothing to it
+    Result result = xmlFile.create();
+    if (result.wasOk())
+    {
+        try
+        {
+            XmlParser::saveXmlFile(xmlFile, libraryItems);
+        }
+        catch (...)
+        {
+            std::cout << "error saving xml file" << std::endl;
+        }
+    }
+    else
+    {
+        std::cout << "failed to create xml file, due to: " + result.getErrorMessage().toStdString() << std::endl;
+    }
 }

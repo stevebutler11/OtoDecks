@@ -1,10 +1,18 @@
 #include "LibraryAudioItem.h"
 
-LibraryAudioItem::LibraryAudioItem(File& _file, std::string& _fileName, double _duration, std::string& _extension
-                                    ) :file(_file), fileName(_fileName), duration(_duration), extension(_extension)
-{
-
-}
+LibraryAudioItem::LibraryAudioItem(File& _file,
+                                   std::string& _fileName,
+                                   double _duration,
+                                   std::string& _extension,
+                                   std::string _key,
+                                   double _bpm
+                                    ) :file(_file),
+                                    fileName(_fileName),
+                                    duration(_duration),
+                                    extension(_extension),
+                                    key((std::string &) _key),
+                                    BPM(_bpm)
+{}
 
 LibraryAudioItem::~LibraryAudioItem()
 {

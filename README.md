@@ -21,10 +21,14 @@
 - ~~refactor project to add a deckLoader class, to facilitate loading decks from the libraryComponent~~
 - ~~impl. load buttons on each row, for left and right decks~~
 - ~~add drag and drop functionality (from native file explorer to the library)~~
+- ~~add sort functionality~~
+  - almost finished, needs tidying
+- ~~add persistence via an Xml file~~
+  - ~~create XmlParser class, with static: loadXml, saveXml functions~~ 
+  - ~~create importXml and exportXml functions on the LibraryComponent class~~
+  - maybe check for duplicate files?
 - add drag and drop functionality (from library to an individual deck)
 - add search functionality
-- add sort functionality
-- add persistence (CSV file?)
 
 ### DeckGUI
 - potentially add track to library if drag and drop comes from the deckGUI itself

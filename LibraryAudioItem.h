@@ -8,7 +8,8 @@
 class LibraryAudioItem
 {
 public:
-    LibraryAudioItem(File& file, std::string& fileName, double duration, std::string& extension);
+    LibraryAudioItem(File& file, std::string& fileName, double duration, std::string& extension,
+                     std::string _key = "", double _bpm = 0.0);
     ~LibraryAudioItem();
 
     void setKey(std::string& key);
@@ -26,8 +27,8 @@ private:
     double duration{0.0};
     std::string extension;
     //TODO: enum for key?
-    std::string key{};
-    double BPM{0.0};
+    std::string key;
+    double BPM;
 };
 
 #endif //GUI_APP_EXAMPLE_LIBRARYAUDIOITEM_H
