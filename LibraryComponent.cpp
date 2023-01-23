@@ -7,6 +7,14 @@ LibraryComponent::LibraryComponent(AudioFormatManager& _formatManager, DeckLoade
 {
     addAndMakeVisible(addItemsButton);
     addAndMakeVisible(tableComponent);
+    addAndMakeVisible (inputText);
+
+    inputText.setText ("Search filenames...", juce::dontSendNotification);
+    inputText.setEditable(true, false, true);
+    inputText.onTextChange = [this] {
+        // TODO: eventually filter the libraryItems list with inputText.getText().toLowerCase(), though this may mean
+        //  copying library items and then removing, whilst keeping original array
+    };
 
     addItemsButton.addListener(this);
 
@@ -48,7 +56,9 @@ void LibraryComponent::paint(Graphics& g)
 void LibraryComponent::resized()
 {
     auto heightSplit = getHeight() / 8;
-    addItemsButton.setBounds(getWidth()/2, 0, getWidth()/2, heightSplit);
+    auto widthSplit = getWidth()/4;
+    inputText.setBounds(0, 0, 3 * widthSplit, heightSplit);
+    addItemsButton.setBounds(3 * widthSplit, 0, widthSplit, heightSplit);
     tableComponent.setBounds(0, heightSplit, getWidth(), heightSplit * 7);
 }
 

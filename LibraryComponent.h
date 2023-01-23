@@ -42,13 +42,14 @@ private:
     void addFileToLibrary(File& file);
     void loadXmlFile();
     void saveToXmlFile();
-    juce::FileChooser fChooser{"Select file(s)...", File(), "*.mp3"};
-    juce::AudioFormatManager& formatManager;
+    FileChooser fChooser{"Select file(s)...", File(), "*.mp3"};
+    AudioFormatManager& formatManager;
     DeckLoader deckloader;
     TableListBox tableComponent;
     std::vector<LibraryAudioItem> libraryItems;
-    juce::TextButton addItemsButton{"+ ADD TO LIBRARY"};
+    TextButton addItemsButton{"+ ADD TO LIBRARY"};
     File xmlFile = File(XmlParser::PERSISTENT_DATA_FILEPATH);
+    Label inputText;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(LibraryComponent)
 };
