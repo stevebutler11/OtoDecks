@@ -349,6 +349,13 @@ void LibraryComponent::filesDropped(const StringArray &files, int x, int y)
 
 void LibraryComponent::addFileToLibrary(File& file)
 {
+    // if file already exists in library, return
+    for (auto& item : libraryItems)
+    {
+        if (file.getFullPathName() == item.getFile().getFullPathName())
+            return;
+    }
+
     // try to create LibraryAudioItem from file
     auto* reader = formatManager.createReaderFor(file);
     auto duration = reader->lengthInSamples / reader->sampleRate;
