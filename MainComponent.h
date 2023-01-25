@@ -15,7 +15,7 @@
     This component lives inside our window, and this is where you should put all
     your controls and content.
 */
-class MainComponent : public juce::AudioAppComponent
+class MainComponent : public juce::AudioAppComponent, public DragAndDropContainer
 {
 public:
     //==============================================================================

@@ -9,10 +9,10 @@
 #include "DeckLoader.h"
 #include "XmlParser.h"
 
-class LibraryComponent : public juce::Component,
+class LibraryComponent : public Component,
                          public TableListBoxModel,
                          public Button::Listener,
-                         public juce::FileDragAndDropTarget
+                         public FileDragAndDropTarget
 {
 public:
 
@@ -30,6 +30,7 @@ public:
     Component* refreshComponentForCell(int rowNumber, int columnId, bool isRowSelected,
                                        Component *existingComponentToUpdate) override;
     void sortOrderChanged(int newSortColumnId, bool isForwards) override;
+    var getDragSourceDescription(const SparseSet< int > &rowsToDescribe) override;
 
     //================ Button::Listener pure virtual functions ================
     void buttonClicked(Button* button) override;

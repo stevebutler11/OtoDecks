@@ -137,6 +137,22 @@ void DeckGUI::filesDropped(const StringArray &files, int x, int y)
     }
 }
 
+bool DeckGUI::isInterestedInDragSource(const SourceDetails &dragSourceDetails)
+{
+    return true;
+}
+
+void DeckGUI::itemDropped(const SourceDetails &dragSourceDetails)
+{
+    auto file = File{dragSourceDetails.description.toString()};
+    if (file.existsAsFile())
+    {
+        //TODO: check if mp3?
+        loadFile(file);
+    }
+    repaint();
+}
+
 void DeckGUI::timerCallback()
 {
     //TODO: potentially change setposrel and getposrel to actual seconds rather than relative

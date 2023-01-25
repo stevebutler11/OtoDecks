@@ -9,6 +9,7 @@ class DeckGUI : public juce::Component,
                 public juce::Button::Listener,
                 public juce::Slider::Listener,
                 public juce::FileDragAndDropTarget,
+                public DragAndDropTarget,
                 public juce::Timer
 {
 public:
@@ -32,6 +33,10 @@ public:
     //================ FileDragAndDropTarget pure virtual functions ================
     bool isInterestedInFileDrag(const StringArray &files) override;
     void filesDropped(const StringArray &files, int x, int y) override;
+
+    //================ DragAndDropTarget pure virtual functions ================
+    bool isInterestedInDragSource(const SourceDetails &dragSourceDetails) override;
+    void itemDropped(const SourceDetails &dragSourceDetails) override;
 
     //================ Timer pure virtual functions ================
     void timerCallback() override;

@@ -27,7 +27,7 @@
   - ~~create XmlParser class, with static: loadXml, saveXml functions~~ 
   - ~~create importXml and exportXml functions on the LibraryComponent class~~
   - maybe check for duplicate files?
-- add drag and drop functionality (from library to an individual deck)
+- ~~add drag and drop functionality (from library to an individual deck)~~
 - add search functionality
 
 ### DeckGUI

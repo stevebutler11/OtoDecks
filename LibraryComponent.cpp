@@ -259,6 +259,13 @@ void LibraryComponent::sortOrderChanged(int newSortColumnId, bool isForwards)
     }
 }
 
+var LibraryComponent::getDragSourceDescription(const SparseSet< int > &rowsToDescribe)
+{
+    // only return first row as can only load one deck at a time
+    if (rowsToDescribe[0] >= 0)
+        return libraryItems[rowsToDescribe[0]].getFile().getFullPathName();
+}
+
 void LibraryComponent::buttonClicked(Button* button)
 {
     if (button == &addItemsButton)
