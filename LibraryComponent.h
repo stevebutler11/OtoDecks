@@ -8,11 +8,13 @@
 #include "LibraryAudioItem.h"
 #include "DeckLoader.h"
 #include "XmlParser.h"
+#include "SearchComponent.h"
 
 class LibraryComponent : public Component,
                          public TableListBoxModel,
                          public Button::Listener,
-                         public FileDragAndDropTarget
+                         public FileDragAndDropTarget,
+                         public ChangeListener
 {
 public:
 
@@ -39,6 +41,9 @@ public:
     bool isInterestedInFileDrag(const StringArray &files) override;
     void filesDropped(const StringArray &files, int x, int y) override;
 
+    //================ ChangeListener pure virtual functions ================
+    void changeListenerCallback(ChangeBroadcaster *source) override;
+
 private:
     void addFileToLibrary(File& file);
     void loadXmlFile();
@@ -47,10 +52,11 @@ private:
     AudioFormatManager& formatManager;
     DeckLoader deckloader;
     TableListBox tableComponent;
-    std::vector<LibraryAudioItem> libraryItems;
+    std::shared_ptr<std::vector<LibraryAudioItem>> libraryItems = std::make_shared<std::vector<LibraryAudioItem>>();
     TextButton addItemsButton{"+ ADD TO LIBRARY"};
     File xmlFile = File(XmlParser::PERSISTENT_DATA_FILEPATH);
-    Label inputText;
+    /** component that implements search functionality */
+    SearchComponent searchComponent{libraryItems};
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(LibraryComponent)
 };

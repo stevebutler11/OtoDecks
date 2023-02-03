@@ -7,16 +7,10 @@ LibraryComponent::LibraryComponent(AudioFormatManager& _formatManager, DeckLoade
 {
     addAndMakeVisible(addItemsButton);
     addAndMakeVisible(tableComponent);
-    addAndMakeVisible (inputText);
-
-    inputText.setText ("Search filenames...", juce::dontSendNotification);
-    inputText.setEditable(true, false, true);
-    inputText.onTextChange = [this] {
-        // TODO: eventually filter the libraryItems list with inputText.getText().toLowerCase(), though this may mean
-        //  copying library items and then removing, whilst keeping original array
-    };
+    addAndMakeVisible (searchComponent);
 
     addItemsButton.addListener(this);
+    searchComponent.addChangeListener(this);
 
     tableComponent.getHeader().addColumn("Track Title", 1, 300);
     tableComponent.getHeader().addColumn("Duration", 2, 80);
@@ -57,14 +51,14 @@ void LibraryComponent::resized()
 {
     auto heightSplit = getHeight() / 8;
     auto widthSplit = getWidth()/4;
-    inputText.setBounds(0, 0, 3 * widthSplit, heightSplit);
+    searchComponent.setBounds(0, 0, 3 * widthSplit, heightSplit);
     addItemsButton.setBounds(3 * widthSplit, 0, widthSplit, heightSplit);
     tableComponent.setBounds(0, heightSplit, getWidth(), heightSplit * 7);
 }
 
 int LibraryComponent::getNumRows()
 {
-    return libraryItems.size();
+    return libraryItems->size();
 }
 
 void LibraryComponent::paintRowBackground(Graphics& g, int rowNumber, int width, int height, bool rowIsSelected)
@@ -84,7 +78,7 @@ void LibraryComponent::paintCell(Graphics& g, int rowNumber, int columnId, int w
     switch (columnId)
     {
         case 1:
-            g.drawText(libraryItems[rowNumber].getFileName(),
+            g.drawText((*libraryItems)[rowNumber].getFileName(),
                        2,
                        0,
                        width - 4,
@@ -93,7 +87,7 @@ void LibraryComponent::paintCell(Graphics& g, int rowNumber, int columnId, int w
                        true);
             break;
         case 2:
-            g.drawText(libraryItems[rowNumber].getDurationFormatted(),
+            g.drawText((*libraryItems)[rowNumber].getDurationFormatted(),
                        2,
                        0,
                        width - 4,
@@ -102,7 +96,7 @@ void LibraryComponent::paintCell(Graphics& g, int rowNumber, int columnId, int w
                        true);
             break;
         case 3:
-            g.drawText(libraryItems[rowNumber].getExtension(),
+            g.drawText((*libraryItems)[rowNumber].getExtension(),
                        2,
                        0,
                        width - 4,
@@ -111,7 +105,7 @@ void LibraryComponent::paintCell(Graphics& g, int rowNumber, int columnId, int w
                        true);
             break;
         case 4:
-            g.drawText(libraryItems[rowNumber].getKey(),
+            g.drawText((*libraryItems)[rowNumber].getKey(),
                        2,
                        0,
                        width - 4,
@@ -120,7 +114,7 @@ void LibraryComponent::paintCell(Graphics& g, int rowNumber, int columnId, int w
                        true);
             break;
         case 5:
-            g.drawText(String {libraryItems[rowNumber].getBPM()},
+            g.drawText(String {(*libraryItems)[rowNumber].getBPM()},
                        2,
                        0,
                        width - 4,
@@ -189,13 +183,13 @@ void LibraryComponent::sortOrderChanged(int newSortColumnId, bool isForwards)
         case 1:
             if (isForwards)
             {
-                std::sort(libraryItems.begin(), libraryItems.end(),[](
+                std::sort(libraryItems->begin(), libraryItems->end(),[](
                         const LibraryAudioItem& a,
                         const LibraryAudioItem& b
                         ){return a.getFileName() < b.getFileName();});
                 break;
             }
-            std::sort(libraryItems.begin(), libraryItems.end(),[](
+            std::sort(libraryItems->begin(), libraryItems->end(),[](
                     const LibraryAudioItem& a,
                     const LibraryAudioItem& b
             ){return a.getFileName() > b.getFileName();});
@@ -203,13 +197,13 @@ void LibraryComponent::sortOrderChanged(int newSortColumnId, bool isForwards)
         case 2:
             if (isForwards)
             {
-                std::sort(libraryItems.begin(), libraryItems.end(),[](
+                std::sort(libraryItems->begin(), libraryItems->end(),[](
                         const LibraryAudioItem& a,
                         const LibraryAudioItem& b
                 ){return a.getDuration() < b.getDuration();});
                 break;
             }
-            std::sort(libraryItems.begin(), libraryItems.end(),[](
+            std::sort(libraryItems->begin(), libraryItems->end(),[](
                     const LibraryAudioItem& a,
                     const LibraryAudioItem& b
             ){return a.getDuration() > b.getDuration();});
@@ -217,13 +211,13 @@ void LibraryComponent::sortOrderChanged(int newSortColumnId, bool isForwards)
         case 3:
             if (isForwards)
             {
-                std::sort(libraryItems.begin(), libraryItems.end(),[](
+                std::sort(libraryItems->begin(), libraryItems->end(),[](
                         const LibraryAudioItem& a,
                         const LibraryAudioItem& b
                 ){return a.getExtension() < b.getExtension();});
                 break;
             }
-            std::sort(libraryItems.begin(), libraryItems.end(),[](
+            std::sort(libraryItems->begin(), libraryItems->end(),[](
                     const LibraryAudioItem& a,
                     const LibraryAudioItem& b
             ){return a.getExtension() > b.getExtension();});
@@ -231,13 +225,13 @@ void LibraryComponent::sortOrderChanged(int newSortColumnId, bool isForwards)
         case 4:
             if (isForwards)
             {
-                std::sort(libraryItems.begin(), libraryItems.end(),[](
+                std::sort(libraryItems->begin(), libraryItems->end(),[](
                         const LibraryAudioItem& a,
                         const LibraryAudioItem& b
                 ){return a.getKey() < b.getKey();});
                 break;
             }
-            std::sort(libraryItems.begin(), libraryItems.end(),[](
+            std::sort(libraryItems->begin(), libraryItems->end(),[](
                     const LibraryAudioItem& a,
                     const LibraryAudioItem& b
             ){return a.getKey() > b.getKey();});
@@ -245,13 +239,13 @@ void LibraryComponent::sortOrderChanged(int newSortColumnId, bool isForwards)
         case 5:
             if (isForwards)
             {
-                std::sort(libraryItems.begin(), libraryItems.end(),[](
+                std::sort(libraryItems->begin(), libraryItems->end(),[](
                         const LibraryAudioItem& a,
                         const LibraryAudioItem& b
                 ){return a.getBPM() < b.getBPM();});
                 break;
             }
-            std::sort(libraryItems.begin(), libraryItems.end(),[](
+            std::sort(libraryItems->begin(), libraryItems->end(),[](
                     const LibraryAudioItem& a,
                     const LibraryAudioItem& b
             ){return a.getBPM() > b.getBPM();});
@@ -263,7 +257,7 @@ var LibraryComponent::getDragSourceDescription(const SparseSet< int > &rowsToDes
 {
     // only return first row as can only load one deck at a time
     if (rowsToDescribe[0] >= 0)
-        return libraryItems[rowsToDescribe[0]].getFile().getFullPathName();
+        return (*libraryItems)[rowsToDescribe[0]].getFile().getFullPathName();
 }
 
 void LibraryComponent::buttonClicked(Button* button)
@@ -298,18 +292,18 @@ void LibraryComponent::buttonClicked(Button* button)
         if (button->getButtonText() == "Remove")
         {
             // erase takes an iterator as an arg so offset from the beginning by rowIndex amt
-            libraryItems.erase(libraryItems.begin() + rowIndex);
+            libraryItems->erase(libraryItems->begin() + rowIndex);
             // refresh the table data to update on screen
             this->tableComponent.updateContent();
         }
         else if (button->getButtonText() == "Load To Left Deck")
         {
-            auto fl = libraryItems[rowIndex].getFile();
+            auto fl = (*libraryItems)[rowIndex].getFile();
             deckloader.loadLeft(fl);
         }
         else if (button->getButtonText() == "Load To Right Deck")
         {
-            auto fl = libraryItems[rowIndex].getFile();
+            auto fl = (*libraryItems)[rowIndex].getFile();
             deckloader.loadRight(fl);
         }
     }
@@ -350,7 +344,7 @@ void LibraryComponent::filesDropped(const StringArray &files, int x, int y)
 void LibraryComponent::addFileToLibrary(File& file)
 {
     // if file already exists in library, return
-    for (auto& item : libraryItems)
+    for (auto& item : *libraryItems)
     {
         if (file.getFullPathName() == item.getFile().getFullPathName())
             return;
@@ -371,7 +365,7 @@ void LibraryComponent::addFileToLibrary(File& file)
             LibraryAudioItem{file, fileName, duration, ext});
 
     // append to libraryItems
-    libraryItems.push_back(*lai);
+    libraryItems->push_back(*lai);
 }
 
 void LibraryComponent::loadXmlFile()
@@ -380,7 +374,7 @@ void LibraryComponent::loadXmlFile()
     {
         try
         {
-            XmlParser::loadXmlFile(xmlFile, libraryItems);
+            XmlParser::loadXmlFile(xmlFile, *libraryItems);
         }
         catch (std::runtime_error& e)
         {
@@ -391,6 +385,7 @@ void LibraryComponent::loadXmlFile()
         {
             std::cout << "problem loading xml file data" << std::endl;
         }
+        std::cout << "libraryItems after load: " << &libraryItems << std::endl;
     }
 }
 
@@ -402,7 +397,7 @@ void LibraryComponent::saveToXmlFile()
     {
         try
         {
-            XmlParser::saveXmlFile(xmlFile, libraryItems);
+            XmlParser::saveXmlFile(xmlFile, *libraryItems);
         }
         catch (...)
         {
@@ -413,4 +408,9 @@ void LibraryComponent::saveToXmlFile()
     {
         std::cout << "failed to create xml file, due to: " + result.getErrorMessage().toStdString() << std::endl;
     }
+}
+
+void LibraryComponent::changeListenerCallback(ChangeBroadcaster *source)
+{
+    tableComponent.updateContent();
 }
