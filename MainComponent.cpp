@@ -20,6 +20,8 @@ MainComponent::MainComponent()
         setAudioChannels (2, 2);
     }
 
+    LookAndFeel::setDefaultLookAndFeel(&customLookAndFeel);
+
     addAndMakeVisible(deckGUI1);
     addAndMakeVisible(deckGUI2);
     addAndMakeVisible(libraryComponent);
@@ -31,6 +33,8 @@ MainComponent::~MainComponent()
 {
     // This shuts down the audio device and clears the audio source.
     shutdownAudio();
+
+    LookAndFeel::setDefaultLookAndFeel(nullptr);
 }
 
 //==============================================================================

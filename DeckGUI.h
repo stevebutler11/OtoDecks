@@ -46,7 +46,7 @@ private:
     juce::TextButton loadButton{"LOAD"};
 
     juce::Slider volumeSlider;
-    juce::Slider speedSlider;
+    juce::Slider speedSlider{Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::NoTextBox};
     juce::Slider posSlider;
 
     DJAudioPlayer* player;

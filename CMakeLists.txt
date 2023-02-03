@@ -68,7 +68,8 @@ target_sources(OtoDecks
         LibraryAudioItem.cpp
         DeckLoader.cpp
         XmlParser.cpp
-        SearchComponent.cpp)
+        SearchComponent.cpp
+        CustomLookAndFeel.cpp)
 
 # `target_compile_definitions` adds some preprocessor definitions to our target. In a Projucer
 # project, these might be passed in the 'Preprocessor Definitions' field. JUCE modules also make use

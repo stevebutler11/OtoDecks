@@ -10,6 +10,7 @@
 #include "DeckGUI.h"
 #include "LibraryComponent.h"
 #include "DeckLoader.h"
+#include "CustomLookAndFeel.h"
 //==============================================================================
 /*
     This component lives inside our window, and this is where you should put all
@@ -34,6 +35,7 @@ public:
 private:
     //==============================================================================
 
+    CustomLookAndFeel customLookAndFeel;
     AudioFormatManager formatManager;
     AudioThumbnailCache thumbnailCache{100};
 

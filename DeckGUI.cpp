@@ -25,7 +25,7 @@ DeckGUI::DeckGUI(DJAudioPlayer* _player,
     posSlider.addListener(this);
 
     volumeSlider.setRange(0.0, 1.0);
-    speedSlider.setRange(0.0, 100.0);
+    speedSlider.setRange(0.92, 1.08);
     posSlider.setRange(0.0, 1.0);
 
     volumeSlider.setValue(1.0);
@@ -62,13 +62,18 @@ void DeckGUI::paint(Graphics& g)
 void DeckGUI::resized()
 {
     int rowH = getHeight()/8;
-    playButton.setBounds(0, 0, getWidth(), rowH);
-    stopButton.setBounds(0, rowH, getWidth(), rowH);
-    posSlider.setBounds(0, rowH*2, getWidth(), rowH);
-    volumeSlider.setBounds(0, rowH*3, getWidth(), rowH);
-    speedSlider.setBounds(0, rowH*4, getWidth(), rowH);
-    waveformDisplay.setBounds(0, rowH*5, getWidth(), rowH*2);
-    loadButton.setBounds(0, rowH*7, getWidth(), rowH);
+    int colW = getWidth()/5;
+
+    posSlider.setBounds(colW, 0, colW * 3, rowH/2);
+    waveformDisplay.setBounds(colW, rowH * 1, colW * 3, rowH/2);
+    volumeSlider.setBounds(colW, rowH * 2, colW * 3, rowH/2);
+
+    playButton.setBounds(0, rowH * 7, colW, rowH);
+    stopButton.setBounds(0, rowH * 6, colW, rowH);
+
+    speedSlider.setBounds(colW * 4, rowH*2, colW, rowH * 6);
+
+//    loadButton.setBounds(0, rowH*7, getWidth(), rowH);
 }
 
 void DeckGUI::buttonClicked(Button *button)
