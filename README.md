@@ -32,8 +32,29 @@
 
 ### DeckGUI
 - potentially add track to library if drag and drop comes from the deckGUI itself
-- 
+- create AudioAnalysis class to impl. bpm and key finding algorithms
 
-## features to implement
+**TrackDisplayComponent**
+- create TrackDisplayComponent
+  - display track name, bpm and key
+  - choose song place via the waveformDisplay
+    - draggable place?
+    - zoomable place?
+  - update key and bpm in library
+  - change color of wave dependent on gain
+
+**JogwheelComponent**
+- spins when dragged
+- speeds up/slows down track
+- inside has visualisation of track?
+  - maybe linear arm that rotates once every 4 beats?
+- some form of linear smoothing to return to track speed
+
+- change play button and stop button to play/pause button
+- add cue button
+- change speed slider to vertical
+- set speed settings to +/- 8%
+
+## misc. features to implement
 - handle more filetypes than mp3
-- create audioAnalysis class to impl. bpm and key finding algorithms
+- implement custom look and feel class
