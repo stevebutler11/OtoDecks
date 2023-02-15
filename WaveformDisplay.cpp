@@ -1,8 +1,9 @@
 #include "WaveformDisplay.h"
 
-WaveformDisplay::WaveformDisplay(AudioFormatManager &formatManagerToUse,
+WaveformDisplay::WaveformDisplay(DJAudioPlayer* _player,
+                                 AudioFormatManager &formatManagerToUse,
                                  AudioThumbnailCache &cacheToUse
-                                 ) : audioThumbnail(
+                                 ) : player(_player), audioThumbnail(
                                          1000,
                                          formatManagerToUse,
                                          cacheToUse), fileLoaded(false), position(0.0)
@@ -31,10 +32,14 @@ void WaveformDisplay::paint(Graphics& g)
                 0,
                 audioThumbnail.getTotalLength(),
                 0,
-                0.5f);
+                1.0f);
 
         g.setColour(juce::Colours::lightgreen);
-        g.drawRect(position * getWidth(), 0, getWidth() / 30, getHeight());
+
+        if (!std::isnan(position))
+        {
+            g.fillRect(position * getLocalBounds().getWidth(), 0, 1, getLocalBounds().getHeight());
+        }
     }
     else
     {
@@ -74,4 +79,12 @@ void WaveformDisplay::setPositionRelative(double pos)
 void WaveformDisplay::changeListenerCallback(ChangeBroadcaster *source)
 {
     repaint();
+}
+
+void WaveformDisplay::mouseDown(const MouseEvent &event)
+{
+    auto mouseXY = getMouseXYRelative();
+    auto mouseWidthRatio = (double) mouseXY.getX() / (double) this->getWidth();
+    player->setPositionRelative(mouseWidthRatio);
+
 }

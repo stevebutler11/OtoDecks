@@ -2,12 +2,14 @@
 #define GUI_APP_EXAMPLE_WAVEFORMDISPLAY_H
 
 #include <JuceHeader.h>
+#include "DJAudioPlayer.h"
 
 class WaveformDisplay : public juce::Component,
                         public juce::ChangeListener
 {
 public:
-    WaveformDisplay(AudioFormatManager &formatManagerToUse,
+    WaveformDisplay(DJAudioPlayer* player,
+                    AudioFormatManager &formatManagerToUse,
                     AudioThumbnailCache &cacheToUse);
     ~WaveformDisplay() override;
 
@@ -18,6 +20,9 @@ public:
      * @param pos
      */
     void setPositionRelative(double pos);
+
+    //================ Component functions ================
+    void mouseDown(const MouseEvent &event) override;
     //================ Component pure virtual functions ================
     void paint(Graphics& g) override;
     void resized() override;
@@ -26,9 +31,10 @@ public:
     void changeListenerCallback(ChangeBroadcaster *source) override;
 
 private:
+    DJAudioPlayer* player;
     AudioThumbnail audioThumbnail;
     bool fileLoaded;
-    double position;
+    double position{0.0};
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(WaveformDisplay)
 };
 

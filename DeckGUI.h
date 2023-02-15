@@ -47,7 +47,6 @@ private:
 
     juce::Slider volumeSlider;
     juce::Slider speedSlider{Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::NoTextBox};
-    juce::Slider posSlider;
 
     DJAudioPlayer* player;
 

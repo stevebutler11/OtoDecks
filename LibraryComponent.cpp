@@ -30,6 +30,7 @@ LibraryComponent::LibraryComponent(AudioFormatManager& _formatManager, DeckLoade
 LibraryComponent::~LibraryComponent()
 {
     saveToXmlFile();
+    tableComponent.setModel(nullptr);
 }
 
 void LibraryComponent::paint(Graphics& g)

@@ -37,7 +37,7 @@
 **TrackDisplayComponent**
 - create TrackDisplayComponent
   - display track name, bpm and key
-  - choose song place via the waveformDisplay
+  - ~~choose song place via the waveformDisplay~~
     - draggable place?
     - zoomable place?
   - update key and bpm in library
@@ -58,3 +58,4 @@
 ## misc. features to implement
 - handle more filetypes than mp3
 - implement custom look and feel class
+- fix SIGSEGV fault on application exit

@@ -27,8 +27,8 @@ void DJAudioPlayer::getNextAudioBlock (const juce::AudioSourceChannelInfo& buffe
 
 void DJAudioPlayer::releaseResources()
 {
-    transportSource.releaseResources();
     resampleSource.releaseResources();
+    transportSource.releaseResources();
 }
 
 void DJAudioPlayer::loadFile(const File& file)
@@ -99,9 +99,8 @@ double DJAudioPlayer::getPositionRelative()
     double lengthInSecs = transportSource.getLengthInSeconds();
 
     //TODO: throw divide by zero error?
-    if (lengthInSecs == 0.0 && currentPosInSecs != 0.0)
+    if (lengthInSecs == 0.0)
     {
-        std::cout << "DJAudioPlayer::getPositionRelative cannot divide by zero" << std::endl;
         return 0.0;
     }
 

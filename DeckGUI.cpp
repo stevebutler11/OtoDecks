@@ -4,7 +4,7 @@ DeckGUI::DeckGUI(DJAudioPlayer* _player,
                  AudioFormatManager &formatManagerToUse,
                  AudioThumbnailCache &cacheToUse
                  ) : player(_player),
-                     waveformDisplay(formatManagerToUse, cacheToUse) // pass cstr args directly to wavfrmDisp
+                     waveformDisplay(_player, formatManagerToUse, cacheToUse) // pass cstr args directly to wavfrmDisp
 {
     addAndMakeVisible(playButton);
     addAndMakeVisible(stopButton);
@@ -12,7 +12,6 @@ DeckGUI::DeckGUI(DJAudioPlayer* _player,
 
     addAndMakeVisible(volumeSlider);
     addAndMakeVisible(speedSlider);
-    addAndMakeVisible(posSlider);
 
     addAndMakeVisible(waveformDisplay);
 
@@ -22,15 +21,12 @@ DeckGUI::DeckGUI(DJAudioPlayer* _player,
 
     volumeSlider.addListener(this);
     speedSlider.addListener(this);
-    posSlider.addListener(this);
 
     volumeSlider.setRange(0.0, 1.0);
     speedSlider.setRange(0.92, 1.08);
-    posSlider.setRange(0.0, 1.0);
 
     volumeSlider.setValue(1.0);
     speedSlider.setValue(1.0);
-    posSlider.setValue(0.0);
 
     startTimer(TIMER_INTERVAL);
 }
@@ -64,8 +60,7 @@ void DeckGUI::resized()
     int rowH = getHeight()/8;
     int colW = getWidth()/5;
 
-    posSlider.setBounds(colW, 0, colW * 3, rowH/2);
-    waveformDisplay.setBounds(colW, rowH * 1, colW * 3, rowH/2);
+    waveformDisplay.setBounds(colW, 0, colW * 3, rowH);
     volumeSlider.setBounds(colW, rowH * 2, colW * 3, rowH/2);
 
     playButton.setBounds(0, rowH * 7, colW, rowH);
@@ -109,10 +104,6 @@ void DeckGUI::sliderValueChanged(Slider *slider)
     if (slider == &speedSlider)
     {
         player->setSpeed(speedSlider.getValue());
-    }
-    if (slider == &posSlider)
-    {
-        player->setPositionRelative(posSlider.getValue());
     }
 }
 
