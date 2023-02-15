@@ -22,10 +22,19 @@ void WaveformDisplay::paint(Graphics& g)
     g.setColour(juce::Colours::grey);
     g.drawRect(getLocalBounds(), 1);
 
-    g.setColour(juce::Colours::orange);
-
     if (fileLoaded)
     {
+        auto cg = ColourGradient(Colours::indianred,
+                       0.0, 0.0,
+                       Colours::indianred,
+                       0.0,
+                       getLocalBounds().getHeight(),
+                       false);
+
+        cg.addColour(0.5, Colours::lightblue);
+
+        g.setGradientFill(cg);
+
         audioThumbnail.drawChannel(
                 g,
                 getLocalBounds(),
@@ -34,10 +43,9 @@ void WaveformDisplay::paint(Graphics& g)
                 0,
                 1.0f);
 
-        g.setColour(juce::Colours::lightgreen);
-
         if (!std::isnan(position))
         {
+            g.setColour(juce::Colours::lightgreen);
             g.fillRect(position * getLocalBounds().getWidth(), 0, 1, getLocalBounds().getHeight());
         }
     }
