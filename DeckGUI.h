@@ -4,6 +4,7 @@
 #include <JuceHeader.h>
 #include "DJAudioPlayer.h"
 #include "WaveformDisplay.h"
+#include "Jogwheel.h"
 
 class DeckGUI : public juce::Component,
                 public juce::Button::Listener,
@@ -47,8 +48,11 @@ private:
 
     juce::Slider volumeSlider;
     juce::Slider speedSlider{Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::NoTextBox};
+    std::shared_ptr<double> pitchVal = std::make_shared<double>(1.0);
 
     DJAudioPlayer* player;
+
+    Jogwheel jogWheel{player, pitchVal};
 
     juce::FileChooser fChooser{"Select a file..."};
 

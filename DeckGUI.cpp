@@ -12,6 +12,7 @@ DeckGUI::DeckGUI(DJAudioPlayer* _player,
 
     addAndMakeVisible(volumeSlider);
     addAndMakeVisible(speedSlider);
+    addAndMakeVisible(jogWheel);
 
     addAndMakeVisible(waveformDisplay);
 
@@ -50,9 +51,9 @@ void DeckGUI::paint(Graphics& g)
     g.setColour(juce::Colours::grey);
     g.drawRect(getLocalBounds(), 1);
 
-    g.setColour(juce::Colours::white);
-    g.setFont(14.0f);
-    g.drawText("DeckGUI", getLocalBounds(), juce::Justification::centred, true);
+//    g.setColour(juce::Colours::white);
+//    g.setFont(14.0f);
+//    g.drawText("DeckGUI", getLocalBounds(), juce::Justification::centred, true);
 }
 
 void DeckGUI::resized()
@@ -67,6 +68,7 @@ void DeckGUI::resized()
     stopButton.setBounds(0, rowH * 6, colW, rowH);
 
     speedSlider.setBounds(colW * 4, rowH*2, colW, rowH * 6);
+    jogWheel.setBounds(colW, rowH * 3, colW * 3, rowH * 5);
 
 //    loadButton.setBounds(0, rowH*7, getWidth(), rowH);
 }
@@ -103,6 +105,7 @@ void DeckGUI::sliderValueChanged(Slider *slider)
     }
     if (slider == &speedSlider)
     {
+        *pitchVal = speedSlider.getValue();
         player->setSpeed(speedSlider.getValue());
     }
 }

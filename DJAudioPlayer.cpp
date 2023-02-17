@@ -57,6 +57,11 @@ void DJAudioPlayer::setGain(double gain)
     }
 }
 
+double DJAudioPlayer::getSpeed()
+{
+    return resampleSource.getResamplingRatio();
+}
+
 void DJAudioPlayer::setSpeed(double ratio)
 {
     //TODO: implement exception here instead of printed line

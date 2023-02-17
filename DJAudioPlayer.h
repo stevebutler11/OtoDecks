@@ -10,6 +10,7 @@ public:
 
     void loadFile(const File& file);
     void setGain(double gain);
+    double getSpeed();
     void setSpeed(double ratio);
     void setPositionRelative(double pos);
 
