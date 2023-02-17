@@ -42,8 +42,8 @@ public:
     //================ Timer pure virtual functions ================
     void timerCallback() override;
 private:
-    juce::TextButton playButton{"PLAY"};
-    juce::TextButton stopButton{"STOP"};
+    juce::TextButton playPauseButton{"PLAY/PAUSE"};
+//    juce::TextButton stopButton{"STOP"};
     juce::TextButton loadButton{"LOAD"};
 
     juce::Slider volumeSlider;

@@ -22,6 +22,7 @@ public:
 
     void start();
     void stop();
+    bool isPlaying();
 
     //================ AudioSource pure virtual functions ================
 

@@ -44,16 +44,16 @@
   - change color of wave dependent on gain
 
 **JogwheelComponent**
-- spins when dragged
-- speeds up/slows down track
+- ~~spins when dragged~~
+- ~~speeds up/slows down track~~
 - inside has visualisation of track?
   - maybe linear arm that rotates once every 4 beats?
-- some form of linear smoothing to return to track speed
+- ~~some form of smoothing to return to track speed~~
 
-- change play button and stop button to play/pause button
+- ~~change play button and stop button to play/pause button~~
 - add cue button
-- change speed slider to vertical
-- set speed settings to +/- 8%
+- ~~change speed slider to vertical~~
+- ~~set speed settings to +/- 8%~~
 
 ## misc. features to implement
 - handle more filetypes than mp3

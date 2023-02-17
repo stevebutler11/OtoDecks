@@ -121,3 +121,8 @@ void DJAudioPlayer::stop()
 {
     transportSource.stop();
 }
+
+bool DJAudioPlayer::isPlaying()
+{
+    return transportSource.isPlaying();
+}

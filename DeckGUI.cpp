@@ -6,8 +6,8 @@ DeckGUI::DeckGUI(DJAudioPlayer* _player,
                  ) : player(_player),
                      waveformDisplay(_player, formatManagerToUse, cacheToUse) // pass cstr args directly to wavfrmDisp
 {
-    addAndMakeVisible(playButton);
-    addAndMakeVisible(stopButton);
+    addAndMakeVisible(playPauseButton);
+//    addAndMakeVisible(stopButton);
     addAndMakeVisible(loadButton);
 
     addAndMakeVisible(volumeSlider);
@@ -16,8 +16,8 @@ DeckGUI::DeckGUI(DJAudioPlayer* _player,
 
     addAndMakeVisible(waveformDisplay);
 
-    playButton.addListener(this);
-    stopButton.addListener(this);
+    playPauseButton.addListener(this);
+//    stopButton.addListener(this);
     loadButton.addListener(this);
 
     volumeSlider.addListener(this);
@@ -50,10 +50,6 @@ void DeckGUI::paint(Graphics& g)
 
     g.setColour(juce::Colours::grey);
     g.drawRect(getLocalBounds(), 1);
-
-//    g.setColour(juce::Colours::white);
-//    g.setFont(14.0f);
-//    g.drawText("DeckGUI", getLocalBounds(), juce::Justification::centred, true);
 }
 
 void DeckGUI::resized()
@@ -64,25 +60,23 @@ void DeckGUI::resized()
     waveformDisplay.setBounds(colW, 0, colW * 3, rowH);
     volumeSlider.setBounds(colW, rowH * 2, colW * 3, rowH/2);
 
-    playButton.setBounds(0, rowH * 7, colW, rowH);
-    stopButton.setBounds(0, rowH * 6, colW, rowH);
+//    cueButton.setBounds(0, rowH * 7, colW, rowH);
+    playPauseButton.setBounds(0, rowH * 6, colW, rowH);
 
     speedSlider.setBounds(colW * 4, rowH*2, colW, rowH * 6);
     jogWheel.setBounds(colW, rowH * 3, colW * 3, rowH * 5);
-
-//    loadButton.setBounds(0, rowH*7, getWidth(), rowH);
 }
 
 void DeckGUI::buttonClicked(Button *button)
 {
-    if (button == &playButton)
+    if (button == &playPauseButton)
     {
-        player->start();
+        player->isPlaying() ? player->stop() : player->start();
     }
-    if (button == &stopButton)
-    {
-        player->stop();
-    }
+//    if (button == &stopButton)
+//    {
+//        player->stop();
+//    }
     if (button == &loadButton)
     {
 
