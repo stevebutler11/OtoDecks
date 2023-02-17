@@ -43,6 +43,11 @@ void WaveformDisplay::paint(Graphics& g)
                 0,
                 1.0f);
 
+        // draw cue mark
+        g.setColour(juce::Colours::blueviolet);
+        g.fillRect(cuePosition * getLocalBounds().getWidth(), 0, 1, getLocalBounds().getHeight());
+
+        // draw current position
         if (!std::isnan(position))
         {
             g.setColour(juce::Colours::lightgreen);
@@ -84,6 +89,11 @@ void WaveformDisplay::setPositionRelative(double pos)
     }
 }
 
+double WaveformDisplay::getCuePositionRelative()
+{
+    return cuePosition;
+}
+
 void WaveformDisplay::changeListenerCallback(ChangeBroadcaster *source)
 {
     repaint();
@@ -93,6 +103,15 @@ void WaveformDisplay::mouseDown(const MouseEvent &event)
 {
     auto mouseXY = getMouseXYRelative();
     auto mouseWidthRatio = (double) mouseXY.getX() / (double) this->getWidth();
-    player->setPositionRelative(mouseWidthRatio);
 
+    // setting cue position
+    if (event.mods.isShiftDown())
+    {
+        cuePosition = mouseWidthRatio;
+    }
+    // setting play position
+    else
+    {
+        player->setPositionRelative(mouseWidthRatio);
+    }
 }

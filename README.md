@@ -41,7 +41,7 @@
     - draggable place?
     - zoomable place?
   - update key and bpm in library
-  - change color of wave dependent on gain
+  - ~~change color of wave dependent on gain~~
 
 **JogwheelComponent**
 - ~~spins when dragged~~
@@ -51,7 +51,7 @@
 - ~~some form of smoothing to return to track speed~~
 
 - ~~change play button and stop button to play/pause button~~
-- add cue button
+- ~~add cue button~~
 - ~~change speed slider to vertical~~
 - ~~set speed settings to +/- 8%~~
 

@@ -43,8 +43,8 @@ public:
     void timerCallback() override;
 private:
     juce::TextButton playPauseButton{"PLAY/PAUSE"};
-//    juce::TextButton stopButton{"STOP"};
-    juce::TextButton loadButton{"LOAD"};
+    juce::TextButton cueButton{"CUE"};
+//    juce::TextButton loadButton{"LOAD"};
 
     juce::Slider volumeSlider;
     juce::Slider speedSlider{Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::NoTextBox};

@@ -7,8 +7,8 @@ DeckGUI::DeckGUI(DJAudioPlayer* _player,
                      waveformDisplay(_player, formatManagerToUse, cacheToUse) // pass cstr args directly to wavfrmDisp
 {
     addAndMakeVisible(playPauseButton);
-//    addAndMakeVisible(stopButton);
-    addAndMakeVisible(loadButton);
+    addAndMakeVisible(cueButton);
+//    addAndMakeVisible(loadButton);
 
     addAndMakeVisible(volumeSlider);
     addAndMakeVisible(speedSlider);
@@ -17,8 +17,8 @@ DeckGUI::DeckGUI(DJAudioPlayer* _player,
     addAndMakeVisible(waveformDisplay);
 
     playPauseButton.addListener(this);
-//    stopButton.addListener(this);
-    loadButton.addListener(this);
+    cueButton.addListener(this);
+//    loadButton.addListener(this);
 
     volumeSlider.addListener(this);
     speedSlider.addListener(this);
@@ -60,8 +60,8 @@ void DeckGUI::resized()
     waveformDisplay.setBounds(colW, 0, colW * 3, rowH);
     volumeSlider.setBounds(colW, rowH * 2, colW * 3, rowH/2);
 
-//    cueButton.setBounds(0, rowH * 7, colW, rowH);
-    playPauseButton.setBounds(0, rowH * 6, colW, rowH);
+    cueButton.setBounds(0, rowH * 6, colW, rowH);
+    playPauseButton.setBounds(0, rowH * 7, colW, rowH);
 
     speedSlider.setBounds(colW * 4, rowH*2, colW, rowH * 6);
     jogWheel.setBounds(colW, rowH * 3, colW * 3, rowH * 5);
@@ -73,21 +73,10 @@ void DeckGUI::buttonClicked(Button *button)
     {
         player->isPlaying() ? player->stop() : player->start();
     }
-//    if (button == &stopButton)
-//    {
-//        player->stop();
-//    }
-    if (button == &loadButton)
+    if (button == &cueButton)
     {
-
-        auto fileChooserFlags =
-                FileBrowserComponent::canSelectFiles;
-
-        fChooser.launchAsync(fileChooserFlags, [this](const FileChooser& chooser)
-        {
-            auto chosenFile = chooser.getResult();
-            loadFile(chosenFile);
-        });
+        player->setPositionRelative(waveformDisplay.getCuePositionRelative());
+        player->start();
     }
 }
 

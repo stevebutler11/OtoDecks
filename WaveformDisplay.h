@@ -21,6 +21,12 @@ public:
      */
     void setPositionRelative(double pos);
 
+    /**
+     * gets the relative cue position set on the waveform of the track
+     * @return
+     */
+    double getCuePositionRelative();
+
     //================ Component functions ================
     void mouseDown(const MouseEvent &event) override;
     //================ Component pure virtual functions ================
@@ -35,6 +41,7 @@ private:
     AudioThumbnail audioThumbnail;
     bool fileLoaded;
     double position{0.0};
+    double cuePosition{0.0};
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(WaveformDisplay)
 };
 
