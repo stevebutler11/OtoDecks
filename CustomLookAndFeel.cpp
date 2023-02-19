@@ -2,7 +2,48 @@
 
 CustomLookAndFeel::CustomLookAndFeel()
 {
+//    // midnight colour scheme
+//    this->setColourScheme(LookAndFeel_V4::ColourScheme({
+//        // windowBackground
+//        0xff2f2f3a,
+//        // widgetBackground
+//        0xff191926,
+//        // menuBackground
+//        0xffd0d0d0,
+//        // outline
+//        0xff66667c,
+//        // defaultText
+//        0xc8ffffff,
+//        // defaultFill
+//        0xffd8d8d8,
+//        // highlightedText
+//        0xffffffff,
+//        // highlightedFill
+//        0xff606073,
+//        // menuText
+//        0xff000000
+//    }));
 
+    this->setColourScheme(LookAndFeel_V4::ColourScheme({
+        // windowBackground
+        0xff3C3F41,
+        // widgetBackground
+        0xff2B2B2B,
+        // menuBackground
+        0xffd0d0d0, // unchanged
+        // outline
+        0xff6793B3,
+        // defaultText
+        0xffBBBBBB,
+        // defaultFill
+        0xff9480C1,
+        // highlightedText
+        0xffffffff,
+        // highlightedFill
+        0x779480C1,
+        // menuText
+        0xffCCCCCC
+    }));
 }
 
 CustomLookAndFeel::~CustomLookAndFeel()

@@ -57,7 +57,7 @@ void DeckGUI::resized()
     int rowH = getHeight()/8;
     int colW = getWidth()/5;
 
-    waveformDisplay.setBounds(colW, 0, colW * 3, rowH);
+    waveformDisplay.setBounds(colW/2, rowH, colW*4, rowH);
     volumeSlider.setBounds(colW, rowH * 2, colW * 3, rowH/2);
 
     cueButton.setBounds(0, rowH * 6, colW, rowH);

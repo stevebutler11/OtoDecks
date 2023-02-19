@@ -36,16 +36,6 @@ LibraryComponent::~LibraryComponent()
 void LibraryComponent::paint(Graphics& g)
 {
     g.fillAll(getLookAndFeel().findColour(ResizableWindow::backgroundColourId));
-
-    g.setColour(Colours::grey);
-    g.drawRect(getLocalBounds(), 1);
-
-    g.setColour(Colours::white);
-    g.setFont(14.0f);
-    g.drawText("LibraryComponent",
-               getLocalBounds(),
-               Justification::centred,
-               true);
 }
 
 void LibraryComponent::resized()
@@ -66,7 +56,7 @@ void LibraryComponent::paintRowBackground(Graphics& g, int rowNumber, int width,
 {
     if (rowIsSelected)
     {
-        g.fillAll(Colours::orange);
+        g.fillAll(Colour::fromString("FFBD8E3E"));
     }
     else
     {
@@ -76,6 +66,7 @@ void LibraryComponent::paintRowBackground(Graphics& g, int rowNumber, int width,
 
 void LibraryComponent::paintCell(Graphics& g, int rowNumber, int columnId, int width, int height, bool rowIsSelected)
 {
+    g.setColour(getLookAndFeel().findColour(ListBox::ColourIds::backgroundColourId));
     switch (columnId)
     {
         case 1:

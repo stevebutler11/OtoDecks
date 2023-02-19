@@ -3,6 +3,7 @@
 
 #include "JuceHeader.h"
 #include "DJAudioPlayer.h"
+#include "JogwheelLookAndFeel.h"
 
 class Jogwheel : public Component,
                  public Slider::Listener,
@@ -31,6 +32,7 @@ public:
 
 private:
     DJAudioPlayer* player;
+    JogwheelLookAndFeel jogwheelLookAndFeel;
     Slider jogWheel{Slider::SliderStyle::Rotary, Slider::TextEntryBoxPosition::NoTextBox};
     std::shared_ptr<double> pitchVal;
     double mouseDownStartValue = NAN;

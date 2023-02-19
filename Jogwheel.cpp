@@ -2,6 +2,7 @@
 
 Jogwheel::Jogwheel(DJAudioPlayer* _player, std::shared_ptr<double>& _pitchVal) : player(_player), pitchVal(_pitchVal)
 {
+    jogWheel.setLookAndFeel(&jogwheelLookAndFeel);
     jogWheel.setRotaryParameters(0.0f, MathConstants<float>::pi * 2.0f, false);
     jogWheel.setRange(0.0, 1.0);
     jogWheel.addListener(this);

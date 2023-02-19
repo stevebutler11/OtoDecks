@@ -17,21 +17,18 @@ WaveformDisplay::~WaveformDisplay()
 
 void WaveformDisplay::paint(Graphics& g)
 {
-    g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
-
-    g.setColour(juce::Colours::grey);
-    g.drawRect(getLocalBounds(), 1);
+    g.fillAll (getLookAndFeel().findColour(ListBox::ColourIds::backgroundColourId));
 
     if (fileLoaded)
     {
-        auto cg = ColourGradient(Colours::indianred,
+        auto cg = ColourGradient(Colour::fromString("FFC75450"),
                        0.0, 0.0,
-                       Colours::indianred,
+                       Colour::fromString("FFC75450"),
                        0.0,
                        getLocalBounds().getHeight(),
                        false);
 
-        cg.addColour(0.5, Colours::lightblue);
+        cg.addColour(0.5, Colour::fromString("FF3592C4"));
 
         g.setGradientFill(cg);
 
@@ -57,6 +54,7 @@ void WaveformDisplay::paint(Graphics& g)
     else
     {
         g.setFont(20.0f);
+        g.setColour(getLookAndFeel().findColour(TextButton::ColourIds::textColourOffId));
         g.drawText("File not loaded...", getLocalBounds(), juce::Justification::centred, true);
     }
 }
@@ -108,6 +106,7 @@ void WaveformDisplay::mouseDown(const MouseEvent &event)
     if (event.mods.isShiftDown())
     {
         cuePosition = mouseWidthRatio;
+        repaint();
     }
     // setting play position
     else
