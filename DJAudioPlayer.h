@@ -2,8 +2,9 @@
 #define GUI_APP_EXAMPLE_DJAUDIOPLAYER_H
 
 #include <JuceHeader.h>
+#include <queue>
 
-class DJAudioPlayer : public juce::AudioSource {
+class DJAudioPlayer : public AudioSource, Timer {
 public:
     explicit DJAudioPlayer(juce::AudioFormatManager& _formatManager);
     ~DJAudioPlayer() override;
@@ -30,12 +31,25 @@ public:
     void getNextAudioBlock (const juce::AudioSourceChannelInfo& bufferToFill) override;
     void releaseResources() override;
 
+    void timerCallback() override;
+
 private:
     juce::AudioFormatManager& formatManager;
     juce::AudioTransportSource transportSource;
     std::unique_ptr<AudioFormatReaderSource> readerSource;
     juce::ResamplingAudioSource resampleSource{&transportSource, false, 2};
 
+    // bpm calc
+    static const int instantSampleSize{1024};
+    static const int previousEnergiesSize{43};
+//    float instantSampleFifo[instantSampleSize];
+    float instantSampleFifoLeft[instantSampleSize];
+    float instantSampleFifoRight[instantSampleSize];
+    int instantSampleIndex{0};
+    std::deque<float> previousEnergiesQueue{};
+    int millis{0};
+
     void setPosition(double posInSecs);
+    void pushNextEnergyIntoQueue(float leftSample, float rightSample);
 };
 #endif //GUI_APP_EXAMPLE_DJAUDIOPLAYER_H

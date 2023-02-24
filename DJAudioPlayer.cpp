@@ -2,7 +2,7 @@
 
 DJAudioPlayer::DJAudioPlayer(juce::AudioFormatManager& _formatManager) : formatManager(_formatManager)
 {
-
+    startTimer(1);
 }
 
 DJAudioPlayer::~DJAudioPlayer()
@@ -23,6 +23,16 @@ void DJAudioPlayer::prepareToPlay (int samplesPerBlockExpected, double sampleRat
 void DJAudioPlayer::getNextAudioBlock (const juce::AudioSourceChannelInfo& bufferToFill)
 {
     resampleSource.getNextAudioBlock(bufferToFill);
+
+    if (bufferToFill.buffer->getNumChannels() == 2)
+    {
+        auto* leftChannelData = bufferToFill.buffer->getReadPointer (0, bufferToFill.startSample);
+        auto* rightChannelData = bufferToFill.buffer->getReadPointer (1, bufferToFill.startSample);
+        for (auto i = 0; i < bufferToFill.numSamples; ++i)
+        {
+            pushNextEnergyIntoQueue(leftChannelData[i], rightChannelData[i]);
+        }
+    }
 }
 
 void DJAudioPlayer::releaseResources()
@@ -125,4 +135,70 @@ void DJAudioPlayer::stop()
 bool DJAudioPlayer::isPlaying()
 {
     return transportSource.isPlaying();
+}
+
+void DJAudioPlayer::pushNextEnergyIntoQueue(float leftSample, float rightSample)
+{
+    // if instantSample is full
+    if (instantSampleIndex == DJAudioPlayer::instantSampleSize)
+    {
+        //  calc energy
+        float instantEnergy{0.0f};
+
+        for (auto i{0u}; i < DJAudioPlayer::instantSampleSize; i++)
+        {
+            instantEnergy += (instantSampleFifoLeft[i] * instantSampleFifoLeft[i]) + (instantSampleFifoRight[i] * instantSampleFifoRight[i]);
+        }
+
+        // push to queue
+        previousEnergiesQueue.push_back(instantEnergy);
+
+        // if queue is full
+        if (previousEnergiesQueue.size() == previousEnergiesSize)
+        {
+            // calc average energy
+            float avgEnergy{0.0f};
+            for (auto const& energy : previousEnergiesQueue)
+            {
+                avgEnergy += energy;
+            }
+            avgEnergy /= previousEnergiesSize;
+
+            // calc the variance
+            float varianceEnergy{0.0f};
+            for (auto const& energy : previousEnergiesQueue)
+            {
+                varianceEnergy += (energy - avgEnergy) * (energy - avgEnergy);
+            }
+            varianceEnergy /= previousEnergiesSize;
+
+            // calculate constant
+            float C = (-0.0025714f * varianceEnergy) + 1.5142857f; // something not right here
+
+            // if instant energy larger than avgEnergy * constant C, then a beat has been detected
+            if (instantEnergy > avgEnergy * C)
+            {
+                DBG(millis << ", " << instantEnergy);
+            }
+
+            // remove last energy
+            previousEnergiesQueue.pop_front();
+        }
+
+        // clear array
+        zeromem (instantSampleFifoLeft, sizeof (instantSampleFifoLeft));
+        zeromem (instantSampleFifoRight, sizeof (instantSampleFifoRight));
+        //  set index back to zero
+        instantSampleIndex = 0;
+    }
+
+    // add channel data to fifos
+    instantSampleFifoLeft[instantSampleIndex] = leftSample;
+    instantSampleFifoRight[instantSampleIndex] = rightSample;
+    instantSampleIndex++;
+}
+
+void DJAudioPlayer::timerCallback()
+{
+    millis++;
 }
