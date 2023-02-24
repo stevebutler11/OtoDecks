@@ -22,6 +22,7 @@ void JogwheelLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width,
     auto toAngle = rotaryStartAngle + sliderPos * (rotaryEndAngle - rotaryStartAngle);
     auto lineW = jmin (8.0f, radius * 0.5f);
     auto arcRadius = radius - lineW * 0.5f;
+    auto innerRadius = radius - lineW;
 
     Path backgroundArc;
     backgroundArc.addCentredArc (bounds.getCentreX(),
@@ -51,4 +52,15 @@ void JogwheelLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width,
         g.setColour (fill);
         g.strokePath (valueArc, PathStrokeType (lineW, PathStrokeType::curved, PathStrokeType::rounded));
     }
+
+    auto cg = ColourGradient(outline,
+                             bounds.getCentreX(), bounds.getCentreY(),
+                             fill,
+                             0.0,
+                             0.0,
+                             true);
+
+    g.setGradientFill(cg);
+
+    g.fillEllipse(bounds.getCentreX() - innerRadius, bounds.getCentreY()  - innerRadius,  innerRadius*2, innerRadius*2);
 }
