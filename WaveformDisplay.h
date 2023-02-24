@@ -29,6 +29,7 @@ public:
 
     //================ Component functions ================
     void mouseDown(const MouseEvent &event) override;
+    void mouseWheelMove(const MouseEvent& event, const MouseWheelDetails& wheel) override;
     //================ Component pure virtual functions ================
     void paint(Graphics& g) override;
     void resized() override;
@@ -37,11 +38,17 @@ public:
     void changeListenerCallback(ChangeBroadcaster *source) override;
 
 private:
+
+    double getMouseWidthRatio();
+
     DJAudioPlayer* player;
     AudioThumbnail audioThumbnail;
     bool fileLoaded;
     double position{0.0};
     double cuePosition{0.0};
+    double audioZoomOffset{0.0};
+    double leftWidthOffset{0.0};
+    double rightWidthOffset{0.0};
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(WaveformDisplay)
 };
 

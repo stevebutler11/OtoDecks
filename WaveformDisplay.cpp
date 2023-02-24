@@ -35,8 +35,8 @@ void WaveformDisplay::paint(Graphics& g)
         audioThumbnail.drawChannel(
                 g,
                 getLocalBounds(),
-                0,
-                audioThumbnail.getTotalLength(),
+                0 + (audioZoomOffset * leftWidthOffset),
+                audioThumbnail.getTotalLength() - (audioZoomOffset * rightWidthOffset),
                 0,
                 1.0f);
 
@@ -99,8 +99,7 @@ void WaveformDisplay::changeListenerCallback(ChangeBroadcaster *source)
 
 void WaveformDisplay::mouseDown(const MouseEvent &event)
 {
-    auto mouseXY = getMouseXYRelative();
-    auto mouseWidthRatio = (double) mouseXY.getX() / (double) this->getWidth();
+    auto mouseWidthRatio = getMouseWidthRatio();
 
     // setting cue position
     if (event.mods.isShiftDown())
@@ -113,4 +112,26 @@ void WaveformDisplay::mouseDown(const MouseEvent &event)
     {
         player->setPositionRelative(mouseWidthRatio);
     }
+}
+
+void WaveformDisplay::mouseWheelMove(const MouseEvent& event, const MouseWheelDetails& wheel)
+{
+    if (event.mods.isShiftDown())
+    {
+        auto temp = audioZoomOffset + (wheel.deltaY*30);
+        audioZoomOffset = (temp > 1) ? temp : 1.0;
+
+        auto mouseWidthRatio = getMouseWidthRatio();
+        leftWidthOffset = mouseWidthRatio;
+        rightWidthOffset = 1 - mouseWidthRatio;
+
+        repaint();
+    }
+}
+
+double WaveformDisplay::getMouseWidthRatio()
+{
+    auto mouseXY = getMouseXYRelative();
+    auto mouseWidthRatio = (double) mouseXY.getX() / (double) this->getWidth();
+    return mouseWidthRatio;
 }
