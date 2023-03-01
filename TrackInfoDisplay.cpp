@@ -14,16 +14,18 @@ TrackInfoDisplay::~TrackInfoDisplay()
 
 void TrackInfoDisplay::paint(Graphics& g)
 {
+    g.fillAll (getLookAndFeel().findColour(ListBox::ColourIds::backgroundColourId));
+    g.setColour(getLookAndFeel().findColour(TextButton::ColourIds::textColourOffId));
+    Typeface::Ptr tface = Typeface::createSystemTypefaceFor(BinaryData::DSDIGI_TTF, BinaryData::DSDIGI_TTFSize);
+    g.setFont(Font(tface));
+    g.setFont (24.0f);
+
     if (displayTextWidth == 0)
     {
         displayTextWidth = g.getCurrentFont().getStringWidthFloat(displayText);
         whitespaceCharWidth = g.getCurrentFont().getStringWidthFloat(" ");
         padDisplayText();
     }
-
-    g.fillAll (getLookAndFeel().findColour(ListBox::ColourIds::backgroundColourId));
-    g.setColour (juce::Colours::lightgrey);
-    g.setFont (18.0f);
 
     g.drawText (paddedText, getLocalBounds(), juce::Justification::centredLeft, false);
 }

@@ -51,12 +51,6 @@ void WaveformDisplay::paint(Graphics& g)
             g.fillRect(position * getLocalBounds().getWidth(), 0, 1, getLocalBounds().getHeight());
         }
     }
-    else
-    {
-        g.setFont(20.0f);
-        g.setColour(getLookAndFeel().findColour(TextButton::ColourIds::textColourOffId));
-        g.drawText("File not loaded...", getLocalBounds(), juce::Justification::centred, true);
-    }
 }
 void WaveformDisplay::resized()
 {
