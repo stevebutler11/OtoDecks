@@ -14,6 +14,7 @@ DeckGUI::DeckGUI(DJAudioPlayer* _player,
     addAndMakeVisible(speedSlider);
     addAndMakeVisible(jogWheel);
 
+    addAndMakeVisible(trackInfoDisplay);
     addAndMakeVisible(waveformDisplay);
 
     playPauseButton.addListener(this);
@@ -42,6 +43,7 @@ void DeckGUI::loadFile(File& file)
     player->loadFile(file);
     //TODO: change waveform to load from file rather than URL
     waveformDisplay.loadURL(URL{file});
+    trackInfoDisplay.setText(file.getFileName().toStdString());
 }
 
 void DeckGUI::paint(Graphics& g)
@@ -57,6 +59,7 @@ void DeckGUI::resized()
     int rowH = getHeight()/8;
     int colW = getWidth()/5;
 
+    trackInfoDisplay.setBounds(colW/2, rowH/2, colW*4, rowH/2);
     waveformDisplay.setBounds(colW/2, rowH, colW*4, rowH);
     volumeSlider.setBounds(colW, rowH * 2, colW * 3, rowH/2);
 

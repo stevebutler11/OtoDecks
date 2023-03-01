@@ -5,6 +5,7 @@
 #include "DJAudioPlayer.h"
 #include "WaveformDisplay.h"
 #include "Jogwheel.h"
+#include "TrackInfoDisplay.h"
 
 class DeckGUI : public juce::Component,
                 public juce::Button::Listener,
@@ -56,6 +57,7 @@ private:
 
     juce::FileChooser fChooser{"Select a file..."};
 
+    TrackInfoDisplay trackInfoDisplay;
     WaveformDisplay waveformDisplay;
 
     int TIMER_INTERVAL = 100;
