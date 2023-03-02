@@ -13,7 +13,7 @@ public:
                     AudioThumbnailCache &cacheToUse);
     ~WaveformDisplay() override;
 
-    void loadURL(URL audioURL);
+    void loadURL(const URL& audioURL);
 
     /**
      * set the relative position of the playhead
@@ -25,7 +25,7 @@ public:
      * gets the relative cue position set on the waveform of the track
      * @return
      */
-    double getCuePositionRelative();
+    double getCuePositionRelative() const;
 
     //================ Component functions ================
     void mouseDown(const MouseEvent &event) override;
@@ -40,13 +40,15 @@ public:
 private:
 
     double getMouseWidthRatio();
+    double getTrackWidthRatio();
+    static double map(double x, double lowCurrent, double highCurrent, double lowTarget, double highTarget);
 
     DJAudioPlayer* player;
     AudioThumbnail audioThumbnail;
     bool fileLoaded;
     double position{0.0};
     double cuePosition{0.0};
-    double audioZoomOffset{0.0};
+    double zoomFactor{0.0};
     double leftWidthOffset{0.0};
     double rightWidthOffset{0.0};
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(WaveformDisplay)
