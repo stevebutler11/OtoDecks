@@ -11,6 +11,7 @@
 #include "LibraryComponent.h"
 #include "DeckLoader.h"
 #include "CustomLookAndFeel.h"
+#include "TwoChannelMixer.h"
 //==============================================================================
 /*
     This component lives inside our window, and this is where you should put all
@@ -45,6 +46,7 @@ private:
     DJAudioPlayer player2{formatManager};
     DeckGUI deckGUI2{&player2, formatManager, thumbnailCache};
 
+    TwoChannelMixer twoChannelMixer{&player1, &player2};
     MixerAudioSource mixerSource;
 
     DeckLoader deckLoader{&deckGUI1, &deckGUI2};
