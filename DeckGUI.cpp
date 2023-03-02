@@ -8,26 +8,16 @@ DeckGUI::DeckGUI(DJAudioPlayer* _player,
 {
     addAndMakeVisible(playPauseButton);
     addAndMakeVisible(cueButton);
-//    addAndMakeVisible(loadButton);
-
-    addAndMakeVisible(volumeSlider);
     addAndMakeVisible(speedSlider);
     addAndMakeVisible(jogWheel);
-
     addAndMakeVisible(trackInfoDisplay);
     addAndMakeVisible(waveformDisplay);
 
     playPauseButton.addListener(this);
     cueButton.addListener(this);
-//    loadButton.addListener(this);
-
-    volumeSlider.addListener(this);
     speedSlider.addListener(this);
 
-    volumeSlider.setRange(0.0, 1.0);
     speedSlider.setRange(0.92, 1.08);
-
-    volumeSlider.setValue(1.0);
     speedSlider.setValue(1.0);
 
     startTimer(TIMER_INTERVAL);
@@ -61,7 +51,6 @@ void DeckGUI::resized()
 
     trackInfoDisplay.setBounds(colW/2, rowH/2, colW*4, rowH/2);
     waveformDisplay.setBounds(colW/2, rowH, colW*4, rowH);
-    volumeSlider.setBounds(colW, rowH * 2, colW * 3, rowH/2);
 
     cueButton.setBounds(0, rowH * 6, colW, rowH);
     playPauseButton.setBounds(0, rowH * 7, colW, rowH);
@@ -85,10 +74,6 @@ void DeckGUI::buttonClicked(Button *button)
 
 void DeckGUI::sliderValueChanged(Slider *slider)
 {
-    if (slider == &volumeSlider)
-    {
-        player->setGain(volumeSlider.getValue());
-    }
     if (slider == &speedSlider)
     {
         *pitchVal = speedSlider.getValue();
@@ -140,6 +125,5 @@ void DeckGUI::itemDropped(const SourceDetails &dragSourceDetails)
 
 void DeckGUI::timerCallback()
 {
-    //TODO: potentially change setposrel and getposrel to actual seconds rather than relative
     waveformDisplay.setPositionRelative(player->getPositionRelative());
 }

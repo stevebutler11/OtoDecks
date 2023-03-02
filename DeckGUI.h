@@ -45,9 +45,7 @@ public:
 private:
     juce::TextButton playPauseButton{"PLAY/PAUSE"};
     juce::TextButton cueButton{"CUE"};
-//    juce::TextButton loadButton{"LOAD"};
 
-    juce::Slider volumeSlider;
     juce::Slider speedSlider{Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::NoTextBox};
     std::shared_ptr<double> pitchVal = std::make_shared<double>(1.0);
 
