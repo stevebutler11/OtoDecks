@@ -19,10 +19,15 @@ public:
     void sliderValueChanged(Slider *slider) override;
 
 private:
+
+    static void formatLabel(Label& label, std::string text);
+
     DJAudioPlayer* leftPlayer;
     DJAudioPlayer* rightPlayer;
     Slider leftDeckVolume{Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::NoTextBox};
     Slider rightDeckVolume{Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::NoTextBox};
     Slider crossfader{Slider::SliderStyle::LinearHorizontal, Slider::TextEntryBoxPosition::NoTextBox};
+    Label leftVolLabel, rightVolLabel;
+    Label crossfaderLabel;
 };
 #endif //GUI_APP_EXAMPLE_TWOCHANNELMIXER_H

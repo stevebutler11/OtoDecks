@@ -98,7 +98,7 @@ target_compile_definitions(OtoDecks
 # static library. These source files can be of any kind (wav data, images, fonts, icons etc.).
 # Conversion to binary-data will happen when your target is built.
 
- juce_add_binary_data(GuiAppData SOURCES assets/DS-DIGI.TTF)
+ juce_add_binary_data(GuiAppData SOURCES assets/DS-DIGI.TTF assets/Moiser-mnOV.ttf)
 
 # `target_link_libraries` links libraries and JUCE modules to other libraries or executables. Here,
 # we're linking our executable target to the `juce::juce_gui_extra` module. Inter-module
