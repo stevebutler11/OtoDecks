@@ -22,9 +22,9 @@ TwoChannelMixer::TwoChannelMixer(DJAudioPlayer* _leftPlayer, DJAudioPlayer* _rig
     rightDeckVolume.setValue(1.0);
     crossfader.setValue(0.0);
 
-    formatLabel(leftVolLabel, "volume");
-    formatLabel(rightVolLabel, "volume");
-    formatLabel(crossfaderLabel, "crossfader");
+    formatLabel(leftVolLabel, "VOLUME");
+    formatLabel(rightVolLabel, "VOLUME");
+    formatLabel(crossfaderLabel, "CROSSFADER");
 }
 
 TwoChannelMixer::~TwoChannelMixer()
@@ -49,8 +49,8 @@ void TwoChannelMixer::resized()
 
     rightDeckVolume.setBounds(widthSlice * 5, heightSlice / 2, widthSlice * 3, heightSlice * 5);
     rightVolLabel.setBounds(widthSlice * 5, (int) (heightSlice * 5.5), widthSlice * 3, heightSlice/4);
-    crossfader.setBounds(widthSlice, (int) (heightSlice * 5.5), widthSlice * 6, heightSlice);
-    crossfaderLabel.setBounds(widthSlice, (int) (heightSlice * 6.5), widthSlice * 6, heightSlice/4);
+    crossfader.setBounds(widthSlice, (int) (heightSlice * 6), widthSlice * 6, heightSlice);
+    crossfaderLabel.setBounds(widthSlice, (int) (heightSlice * 6.5), widthSlice * 6, heightSlice/2);
 }
 
 void TwoChannelMixer::sliderValueChanged(Slider *slider)
@@ -102,7 +102,7 @@ void TwoChannelMixer::sliderValueChanged(Slider *slider)
 
 void TwoChannelMixer::formatLabel(Label& label, std::string text)
 {
-    Typeface::Ptr tface = Typeface::createSystemTypefaceFor(BinaryData::MoisermnOV_ttf, BinaryData::MoisermnOV_ttfSize);
+    Typeface::Ptr tface = Typeface::createSystemTypefaceFor(BinaryData::neuropol_otf, BinaryData::neuropol_otfSize);
     label.setText (text, juce::dontSendNotification);
     label.setFont(Font(tface).withHeight(10.0f));
     label.setColour (juce::Label::textColourId, juce::Colours::grey);

@@ -8,17 +8,20 @@ DeckGUI::DeckGUI(DJAudioPlayer* _player,
 {
     addAndMakeVisible(playPauseButton);
     addAndMakeVisible(cueButton);
-    addAndMakeVisible(speedSlider);
+    addAndMakeVisible(tempoSlider);
     addAndMakeVisible(jogWheel);
     addAndMakeVisible(trackInfoDisplay);
     addAndMakeVisible(waveformDisplay);
+    addAndMakeVisible(tempoLabel);
 
     playPauseButton.addListener(this);
     cueButton.addListener(this);
-    speedSlider.addListener(this);
+    tempoSlider.addListener(this);
 
-    speedSlider.setRange(0.92, 1.08);
-    speedSlider.setValue(1.0);
+    tempoSlider.setRange(0.92, 1.08);
+    tempoSlider.setValue(1.0);
+
+    formatLabel(tempoLabel, "TEMPO +/- 8%");
 
     startTimer(TIMER_INTERVAL);
 }
@@ -39,9 +42,6 @@ void DeckGUI::loadFile(File& file)
 void DeckGUI::paint(Graphics& g)
 {
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
-
-//    g.setColour(juce::Colours::grey);
-//    g.drawRect(getLocalBounds(), 1);
 }
 
 void DeckGUI::resized()
@@ -55,7 +55,8 @@ void DeckGUI::resized()
     cueButton.setBounds(0, rowH * 6, colW, rowH);
     playPauseButton.setBounds(0, rowH * 7, colW, rowH);
 
-    speedSlider.setBounds(colW * 4, rowH*2, colW, rowH * 6);
+    tempoSlider.setBounds(colW * 4, rowH*2, colW, (int) (rowH * 5.5));
+    tempoLabel.setBounds(colW * 4, rowH*7, colW, rowH);
     jogWheel.setBounds(colW, rowH * 3, colW * 3, rowH * 5);
 }
 
@@ -74,10 +75,10 @@ void DeckGUI::buttonClicked(Button *button)
 
 void DeckGUI::sliderValueChanged(Slider *slider)
 {
-    if (slider == &speedSlider)
+    if (slider == &tempoSlider)
     {
-        *pitchVal = speedSlider.getValue();
-        player->setSpeed(speedSlider.getValue());
+        *tempoVal = tempoSlider.getValue();
+        player->setSpeed(tempoSlider.getValue());
     }
 }
 
@@ -126,4 +127,13 @@ void DeckGUI::itemDropped(const SourceDetails &dragSourceDetails)
 void DeckGUI::timerCallback()
 {
     waveformDisplay.setPositionRelative(player->getPositionRelative());
+}
+
+void DeckGUI::formatLabel(Label& label, std::string text)
+{
+    Typeface::Ptr tface = Typeface::createSystemTypefaceFor(BinaryData::neuropol_otf, BinaryData::neuropol_otfSize);
+    label.setText (text, juce::dontSendNotification);
+    label.setFont(Font(tface).withHeight(10.0f));
+    label.setColour (juce::Label::textColourId, juce::Colours::grey);
+    label.setJustificationType (juce::Justification::centredBottom);
 }

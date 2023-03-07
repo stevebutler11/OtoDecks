@@ -43,15 +43,19 @@ public:
     //================ Timer pure virtual functions ================
     void timerCallback() override;
 private:
+
+    void formatLabel(Label& label, std::string text);
+
     juce::TextButton playPauseButton{"PLAY/PAUSE"};
     juce::TextButton cueButton{"CUE"};
 
-    juce::Slider speedSlider{Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::NoTextBox};
-    std::shared_ptr<double> pitchVal = std::make_shared<double>(1.0);
+    juce::Slider tempoSlider{Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::NoTextBox};
+    Label tempoLabel;
+    std::shared_ptr<double> tempoVal = std::make_shared<double>(1.0);
 
     DJAudioPlayer* player;
 
-    Jogwheel jogWheel{player, pitchVal};
+    Jogwheel jogWheel{player, tempoVal};
 
     juce::FileChooser fChooser{"Select a file..."};
 
