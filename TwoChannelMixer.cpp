@@ -28,8 +28,8 @@ TwoChannelMixer::~TwoChannelMixer()
 void TwoChannelMixer::paint(Graphics& g)
 {
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
-    g.setColour(juce::Colours::grey);
-    g.drawRect(getLocalBounds(), 1);
+    g.setColour(getLookAndFeel().findColour (juce::ListBox::ColourIds::backgroundColourId));
+    g.drawRoundedRectangle(getLocalBounds().toFloat(), 5.0f, 1.0f);
 }
 
 void TwoChannelMixer::resized()
@@ -37,9 +37,9 @@ void TwoChannelMixer::resized()
     auto widthSlice = getBounds().getWidth() / 8;
     auto heightSlice = getBounds().getHeight() / 7;
 
-    leftDeckVolume.setBounds(0, heightSlice, widthSlice * 3, heightSlice * 4);
-    rightDeckVolume.setBounds(widthSlice * 5, heightSlice, widthSlice * 3, heightSlice * 4);
-    crossfader.setBounds(widthSlice, heightSlice * 5, widthSlice * 6, heightSlice * 2);
+    leftDeckVolume.setBounds(0, heightSlice / 2, widthSlice * 3, heightSlice * 5);
+    rightDeckVolume.setBounds(widthSlice * 5, heightSlice / 2, widthSlice * 3, heightSlice * 5);
+    crossfader.setBounds(widthSlice, heightSlice * 6, widthSlice * 6, heightSlice);
 }
 
 void TwoChannelMixer::sliderValueChanged(Slider *slider)

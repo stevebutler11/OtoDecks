@@ -4,6 +4,8 @@ SearchComponent::SearchComponent(std::shared_ptr<std::vector<LibraryAudioItem>>&
 {
     addAndMakeVisible(searchBar);
 
+    Typeface::Ptr tface = Typeface::createSystemTypefaceFor(BinaryData::DSDIGI_TTF, BinaryData::DSDIGI_TTFSize);
+    searchBar.setFont(Font(tface));
     searchBar.setText ("Search filenames...", juce::dontSendNotification);
     searchBar.setEditable(true, false, true);
     searchBar.onTextChange = [this] {
@@ -25,7 +27,7 @@ SearchComponent::~SearchComponent()
 
 void SearchComponent::paint(Graphics& g)
 {
-    g.fillAll(getLookAndFeel().findColour(ResizableWindow::backgroundColourId));
+    g.fillAll(getLookAndFeel().findColour(ListBox::ColourIds::backgroundColourId));
 }
 
 void SearchComponent::resized()

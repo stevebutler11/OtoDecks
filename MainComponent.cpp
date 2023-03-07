@@ -73,12 +73,28 @@ void MainComponent::paint(juce::Graphics& g)
 
 void MainComponent::resized()
 {
-    auto widthSlice = getBounds().getWidth() / 12;
-    auto heightSlice = getBounds().getHeight() / 3;
+    FlexBox decksFb;
+    decksFb.flexWrap = juce::FlexBox::Wrap::noWrap;
+    decksFb.justifyContent = juce::FlexBox::JustifyContent::center;
+    decksFb.alignContent = juce::FlexBox::AlignContent::center;
 
-    deckGUI1.setBounds(0, 0, widthSlice * 5, heightSlice * 2);
-    twoChannelMixer.setBounds(widthSlice * 5, 0, widthSlice * 2, heightSlice * 2);
-    deckGUI2.setBounds(widthSlice * 7, 0, widthSlice * 5, heightSlice * 2);
-    libraryComponent.setBounds(0, heightSlice * 2, getWidth(), heightSlice);
+    decksFb.items.addArray({
+        FlexItem(deckGUI1).withMinWidth(100).withMinHeight(100).withFlex((2)).withMargin(FlexItem::Margin(10)),
+        FlexItem(twoChannelMixer).withMinWidth(50).withMinHeight(50).withFlex((1)).withMargin(FlexItem::Margin(10)),
+        FlexItem(deckGUI2).withMinWidth(100).withMinHeight(100).withFlex((2)).withMargin(FlexItem::Margin(10))
+    });
+
+    FlexBox outerFb;
+    outerFb.flexWrap = juce::FlexBox::Wrap::noWrap;
+    outerFb.justifyContent = juce::FlexBox::JustifyContent::center;
+    outerFb.alignContent = juce::FlexBox::AlignContent::center;
+    outerFb.flexDirection = FlexBox::Direction::column;
+
+    outerFb.items.addArray({
+        FlexItem(decksFb).withWidth((float) getLocalBounds().getWidth()).withFlex(2),
+        FlexItem(libraryComponent).withFlex(1),
+    });
+
+    outerFb.performLayout (getLocalBounds().toFloat());
 }
 

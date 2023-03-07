@@ -40,8 +40,8 @@ void DeckGUI::paint(Graphics& g)
 {
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
 
-    g.setColour(juce::Colours::grey);
-    g.drawRect(getLocalBounds(), 1);
+//    g.setColour(juce::Colours::grey);
+//    g.drawRect(getLocalBounds(), 1);
 }
 
 void DeckGUI::resized()
@@ -49,8 +49,8 @@ void DeckGUI::resized()
     int rowH = getHeight()/8;
     int colW = getWidth()/5;
 
-    trackInfoDisplay.setBounds(colW/2, rowH/2, colW*4, rowH/2);
-    waveformDisplay.setBounds(colW/2, rowH, colW*4, rowH);
+    trackInfoDisplay.setBounds(0, 0, colW*5, rowH/2);
+    waveformDisplay.setBounds(0, rowH/2, colW*5, rowH);
 
     cueButton.setBounds(0, rowH * 6, colW, rowH);
     playPauseButton.setBounds(0, rowH * 7, colW, rowH);

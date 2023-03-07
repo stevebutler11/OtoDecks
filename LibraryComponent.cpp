@@ -40,11 +40,28 @@ void LibraryComponent::paint(Graphics& g)
 
 void LibraryComponent::resized()
 {
-    auto heightSplit = getHeight() / 8;
-    auto widthSplit = getWidth()/4;
-    searchComponent.setBounds(0, 0, 3 * widthSplit, heightSplit);
-    addItemsButton.setBounds(3 * widthSplit, 0, widthSplit, heightSplit);
-    tableComponent.setBounds(0, heightSplit, getWidth(), heightSplit * 7);
+    FlexBox searchBarFb;
+    searchBarFb.flexWrap = juce::FlexBox::Wrap::noWrap;
+    searchBarFb.justifyContent = juce::FlexBox::JustifyContent::center;
+    searchBarFb.alignContent = juce::FlexBox::AlignContent::center;
+
+    searchBarFb.items.addArray({
+        FlexItem(searchComponent).withFlex(1).withMargin(FlexItem::Margin(0, 5, 0, 0)),
+        FlexItem(addItemsButton).withFlex(1).withMaxWidth(150)
+    });
+
+    FlexBox libraryFb;
+    libraryFb.flexWrap = juce::FlexBox::Wrap::noWrap;
+    libraryFb.justifyContent = juce::FlexBox::JustifyContent::center;
+    libraryFb.alignContent = juce::FlexBox::AlignContent::center;
+    libraryFb.flexDirection = FlexBox::Direction::column;
+
+    libraryFb.items.addArray({
+        FlexItem(searchBarFb).withMinHeight(30).withMaxHeight(40).withMargin(FlexItem::Margin(10, 10, 0, 10)),
+        FlexItem(tableComponent).withFlex(10).withMargin(10)
+    });
+
+    libraryFb.performLayout (getLocalBounds().toFloat());
 }
 
 int LibraryComponent::getNumRows()
