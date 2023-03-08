@@ -6,6 +6,7 @@
 #include "WaveformDisplay.h"
 #include "Jogwheel.h"
 #include "TrackInfoDisplay.h"
+#include "DeckButton.h"
 
 class DeckGUI : public juce::Component,
                 public juce::Button::Listener,
@@ -46,8 +47,8 @@ private:
 
     void formatLabel(Label& label, std::string text);
 
-    juce::TextButton playPauseButton{"PLAY/PAUSE"};
-    juce::TextButton cueButton{"CUE"};
+    DeckButton playPauseButton{"PLAY/PAUSE", Colour::fromString("#FF00CC00")};
+    DeckButton cueButton{"CUE", Colour::fromString("#FFE67300")};
 
     juce::Slider tempoSlider{Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::NoTextBox};
     Label tempoLabel;

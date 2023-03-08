@@ -73,7 +73,8 @@ target_sources(OtoDecks
         Jogwheel.cpp
         JogwheelLookAndFeel.cpp
         TrackInfoDisplay.cpp
-        TwoChannelMixer.cpp)
+        TwoChannelMixer.cpp
+        DeckButton.cpp)
 
 # `target_compile_definitions` adds some preprocessor definitions to our target. In a Projucer
 # project, these might be passed in the 'Preprocessor Definitions' field. JUCE modules also make use
