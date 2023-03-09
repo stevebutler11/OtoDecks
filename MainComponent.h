@@ -18,8 +18,7 @@
     your controls and content.
 */
 class MainComponent : public AudioAppComponent,
-                      public DragAndDropContainer
-{
+                      public DragAndDropContainer {
 public:
 
     /**
@@ -39,13 +38,13 @@ public:
      * @param samplesPerBlockExpected the number of samples that the source will be expected to supply
      * @param sampleRate the sample rate that the output will be used at
      */
-    void prepareToPlay (int samplesPerBlockExpected, double sampleRate) override;
+    void prepareToPlay(int samplesPerBlockExpected, double sampleRate) override;
 
     /**
      * Called repeatedly to fetch subsequent blocks of audio data
      * @param bufferToFill
      */
-    void getNextAudioBlock (const AudioSourceChannelInfo& bufferToFill) override;
+    void getNextAudioBlock(const AudioSourceChannelInfo &bufferToFill) override;
 
     /**
      * Allows the source to release anything it no longer needs after playback has stopped
@@ -58,7 +57,7 @@ public:
      * Components can override this method to draw their content
      * @param g the graphics context that must be used to do the drawing operations
      */
-    void paint (Graphics& g) override;
+    void paint(Graphics &g) override;
 
     /**
      * Called when this component's size has been changed
