@@ -38,8 +38,6 @@ MainComponent::~MainComponent()
 {
     // This shuts down the audio device and clears the audio source.
     shutdownAudio();
-
-    LookAndFeel::setDefaultLookAndFeel(nullptr);
 }
 
 //==============================================================================
