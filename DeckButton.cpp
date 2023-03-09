@@ -1,7 +1,7 @@
 #include "DeckButton.h"
 
-DeckButton::DeckButton(const std::string& buttonName, const Colour& _outerGlowColour)
-                        : Button(buttonName), outerGlowColour(_outerGlowColour)
+DeckButton::DeckButton(const std::string& buttonName, const Colour& _outerGlowColour, bool _isPlayButton)
+                        : Button(buttonName), outerGlowColour(_outerGlowColour), isPlayButton(_isPlayButton)
 {
 
 }
@@ -19,7 +19,8 @@ void DeckButton::paintButton(juce::Graphics& g, bool isMouseOver, bool isButtonD
             diameter,
             diameter);
 
-    g.setFont(10.0f);
+    // scale font with button size
+    g.setFont(diameter/4);
 
     if (isMouseOver || isButtonDown)
     {
@@ -31,11 +32,54 @@ void DeckButton::paintButton(juce::Graphics& g, bool isMouseOver, bool isButtonD
                 diameter,
                 1.0f);
         g.setColour(findColour(TextButton::ColourIds::textColourOnId));
-        g.drawText(this->getButtonText(), buttonBounds, Justification::centred);
+        if (isPlayButton) {
+            Path playSymbol;
+            playSymbol.addTriangle (
+                    buttonBounds.getCentreX() - diameter/8, buttonBounds.getCentreY() - diameter/12,
+                    buttonBounds.getCentreX(), buttonBounds.getCentreY(),
+                    buttonBounds.getCentreX() - diameter/8, buttonBounds.getCentreY() + diameter/12);
+            g.fillPath (playSymbol);
+
+            g.fillRect(Rectangle<float>(
+                    buttonBounds.getCentreX(),
+                    buttonBounds.getCentreY() - diameter/12,
+                    diameter / 24,
+                    diameter/6));
+
+            g.fillRect(Rectangle<float>(
+                    buttonBounds.getCentreX() + diameter/12,
+                    buttonBounds.getCentreY() - diameter/12,
+                    diameter / 24,
+                    diameter/6));
+        } else {
+            g.drawText(this->getButtonText(), buttonBounds, Justification::centred);
+        }
     }
     else
     {
         g.setColour(findColour(TextButton::ColourIds::textColourOffId));
-        g.drawText(this->getButtonText(), buttonBounds, Justification::centred);
+        if (isPlayButton) {
+            Path playSymbol;
+            playSymbol.addTriangle (
+                    buttonBounds.getCentreX() - diameter/8, buttonBounds.getCentreY() - diameter/12,
+                    buttonBounds.getCentreX(), buttonBounds.getCentreY(),
+                    buttonBounds.getCentreX() - diameter/8, buttonBounds.getCentreY() + diameter/12);
+            g.fillPath (playSymbol);
+
+            g.fillRect(Rectangle<float>(
+                    buttonBounds.getCentreX(),
+                    buttonBounds.getCentreY() - diameter/12,
+                    diameter / 24,
+                    diameter/6));
+
+            g.fillRect(Rectangle<float>(
+                    buttonBounds.getCentreX() + diameter/12,
+                    buttonBounds.getCentreY() - diameter/12,
+                    diameter / 24,
+                    diameter/6));
+
+        } else {
+            g.drawText(this->getButtonText(), buttonBounds, Justification::centred);
+        }
     }
 }

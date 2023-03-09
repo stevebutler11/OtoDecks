@@ -48,18 +48,18 @@ void DeckGUI::paint(Graphics& g)
 
 void DeckGUI::resized()
 {
-    int rowH = getHeight()/8;
+    int rowH = getHeight()/12;
     int colW = getWidth()/5;
 
-    trackInfoDisplay.setBounds(0, 0, colW*5, rowH/2);
-    waveformDisplay.setBounds(0, rowH/2, colW*5, rowH);
+    trackInfoDisplay.setBounds(0, 0, colW*5, rowH);
+    waveformDisplay.setBounds(0, rowH, colW*5, rowH*2);
 
-    cueButton.setBounds(0, rowH * 6, colW, rowH);
-    playPauseButton.setBounds(0, rowH * 7, colW, rowH);
+    cueButton.setBounds(0, rowH * 8, colW, rowH*2);
+    playPauseButton.setBounds(0, rowH * 10, colW, rowH*2);
 
-    tempoSlider.setBounds(colW * 4, rowH*2, colW, (int) (rowH * 5.5));
-    tempoLabel.setBounds(colW * 4, rowH*7, colW, rowH);
-    jogWheel.setBounds(colW, rowH * 3, colW * 3, rowH * 5);
+    tempoSlider.setBounds(colW * 4, rowH*3, colW, (int) (rowH * 8.5));
+    tempoLabel.setBounds(colW * 4, rowH*11, colW, rowH);
+    jogWheel.setBounds(colW, rowH * 3, colW * 3, rowH * 9);
 }
 
 void DeckGUI::buttonClicked(Button *button)

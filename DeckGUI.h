@@ -47,7 +47,7 @@ private:
 
     void formatLabel(Label& label, std::string text);
 
-    DeckButton playPauseButton{"PLAY/PAUSE", Colour::fromString("#FF00CC00")};
+    DeckButton playPauseButton{"", Colour::fromString("#FF00CC00"), true};
     DeckButton cueButton{"CUE", Colour::fromString("#FFE67300")};
 
     juce::Slider tempoSlider{Slider::SliderStyle::LinearVertical, Slider::TextEntryBoxPosition::NoTextBox};

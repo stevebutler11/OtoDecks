@@ -20,6 +20,10 @@ MainComponent::MainComponent()
         setAudioChannels (2, 2);
     }
 
+    customLookAndFeel.setDefaultSansSerifTypeface(
+            Typeface::createSystemTypefaceFor(
+                    BinaryData::LatoLight_ttf,
+                    BinaryData::LatoLight_ttfSize));
     LookAndFeel::setDefaultLookAndFeel(&customLookAndFeel);
 
     addAndMakeVisible(deckGUI1);
