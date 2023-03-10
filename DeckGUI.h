@@ -60,7 +60,7 @@ public:
      */
     void buttonClicked(Button *button) override;
 
-    //================ Slider pure virtual functions ================
+    //================ Slider:Listener pure virtual functions ================
 
     /**
      * Called when the slider's value is changed

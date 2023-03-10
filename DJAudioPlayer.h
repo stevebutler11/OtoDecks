@@ -4,6 +4,10 @@
 #include <JuceHeader.h>
 #include <queue>
 
+/**
+ * A class to handle the audio functionality of a DJ deck. Works in tandem with the DeckGUI to represent a DJ deck
+ * in the application
+ */
 class DJAudioPlayer : public AudioSource, Timer {
 public:
     /**
