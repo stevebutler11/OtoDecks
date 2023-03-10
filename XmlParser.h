@@ -4,11 +4,26 @@
 #include <JuceHeader.h>
 #include "LibraryAudioItem.h"
 
-class XmlParser
-{
+/**
+ * A class that helps parse XML, with the aim to facilitate persistence of audio file data when the application closes
+ * and re-opens
+ */
+class XmlParser {
 public:
-    static void loadXmlFile(const File& xmlFile, std::vector<LibraryAudioItem>& container);
-    static void saveXmlFile(const File& xmlFile, std::vector<LibraryAudioItem>& libraryItems);
+
+    /**
+     * static function that attempts to load data from an xml file
+     * @param xmlFile JUCE File that should have extension .xml
+     * @param container reference to a vector that will store LibraryAudioItems for the parsed data
+     */
+    static void loadXmlFile(const File &xmlFile, std::vector<LibraryAudioItem> &container);
+
+    /**
+     * static function that attempts to save data to an xml file
+     * @param xmlFile JUCE File with extension .xml
+     * @param container reference to a vector that should have LibraryAudioItems in it to store
+     */
+    static void saveXmlFile(const File &xmlFile, std::vector<LibraryAudioItem> &libraryItems);
 
     /**
      * xml tag identifiers
@@ -22,11 +37,11 @@ public:
     inline static const Identifier KEY_TAG = "KEY";
     inline static const Identifier BPM_TAG = "BPM";
 
-    /**
-     * temporary abs file path for the data
-     */
-     //TODO: change this to something more appropriate
-    inline static const std::string PERSISTENT_DATA_FILEPATH = "/home/steve/libraryItems.xml";
+    // absolute path for the users' music folder
+    inline static const std::string USERS_MUSIC_DIRECTORY = File::getSpecialLocation(
+            File::SpecialLocationType::userMusicDirectory).getFullPathName().toStdString();
+    // file path for our xml file for audio data persistence
+    inline static const std::string PERSISTENT_DATA_FILEPATH = USERS_MUSIC_DIRECTORY + "/libraryItems.xml";
 };
 
 #endif //GUI_APP_EXAMPLE_XMLPARSER_H

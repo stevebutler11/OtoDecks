@@ -3,8 +3,7 @@
 #include "XmlParser.h"
 #include "LibraryAudioItem.h"
 
-void XmlParser::loadXmlFile(const File& xmlFile, std::vector<LibraryAudioItem>& container)
-{
+void XmlParser::loadXmlFile(const File &xmlFile, std::vector<LibraryAudioItem> &container) {
     if (!xmlFile.exists())
         throw std::runtime_error{"XmlParser::loadXmlFile - xml file doesn't exist"};
 
@@ -19,18 +18,15 @@ void XmlParser::loadXmlFile(const File& xmlFile, std::vector<LibraryAudioItem>& 
         throw std::runtime_error{"XmlParser::loadXmlFile - the main xml tag is incorrect"};
 
     // string of filenames that have incorrect file paths
-    std::string lostFilesnames;
+    std::string lostFilesNames;
 
-    for (auto* elem : mainElem->getChildIterator())
-    {
-        if (elem->hasTagName (XmlParser::LIBRARY_AUDIO_ITEM_TAG))
-        {
+    for (auto *elem: mainElem->getChildIterator()) {
+        if (elem->hasTagName(XmlParser::LIBRARY_AUDIO_ITEM_TAG)) {
             std::string fileName = elem->getStringAttribute(XmlParser::FILENAME_TAG).toStdString();
             String fullFilePath = elem->getStringAttribute(XmlParser::FULL_FILEPATH_TAG);
             File file = File(fullFilePath);
-            if (!file.existsAsFile())
-            {
-                lostFilesnames += ("\n" + fileName);
+            if (!file.existsAsFile()) {
+                lostFilesNames += ("\n" + fileName);
                 continue;
             }
             double duration = elem->getDoubleAttribute(XmlParser::DURATION_TAG);
@@ -46,21 +42,19 @@ void XmlParser::loadXmlFile(const File& xmlFile, std::vector<LibraryAudioItem>& 
         }
     }
 
-    if (!lostFilesnames.empty())
-    {
+    if (!lostFilesNames.empty()) {
         NativeMessageBox::showMessageBoxAsync(MessageBoxIconType::WarningIcon,
-                "File(s) no longer exist",
-                "The below file(s):\n" + lostFilesnames + "\n\nno longer exist. Maybe they were moved?");
+                                              "File(s) no longer exist",
+                                              "The below file(s):\n" + lostFilesNames +
+                                              "\n\nno longer exist. Maybe they were moved?");
     }
 }
 
-void XmlParser::saveXmlFile(const File& xmlFile, std::vector<LibraryAudioItem>& libraryItems)
-{
+void XmlParser::saveXmlFile(const File &xmlFile, std::vector<LibraryAudioItem> &libraryItems) {
     // create file output stream
     FileOutputStream output(xmlFile);
 
-    if (output.openedOk())
-    {
+    if (output.openedOk()) {
         // set position to start and overwrite the file
         output.setPosition(0);
         output.truncate();
@@ -68,9 +62,8 @@ void XmlParser::saveXmlFile(const File& xmlFile, std::vector<LibraryAudioItem>& 
         // create outer node
         XmlElement libAudioItems(XmlParser::LIBRARY_AUDIO_ITEMS_TAG);
 
-        for (auto& item : libraryItems)
-        {
-            auto* libAudioItem = new XmlElement(XmlParser::LIBRARY_AUDIO_ITEM_TAG);
+        for (auto &item: libraryItems) {
+            auto *libAudioItem = new XmlElement(XmlParser::LIBRARY_AUDIO_ITEM_TAG);
             libAudioItem->setAttribute(XmlParser::FULL_FILEPATH_TAG, item.getFile().getFullPathName());
             libAudioItem->setAttribute(XmlParser::FILENAME_TAG, item.getFileName());
             libAudioItem->setAttribute(XmlParser::DURATION_TAG, item.getDuration());
@@ -82,9 +75,7 @@ void XmlParser::saveXmlFile(const File& xmlFile, std::vector<LibraryAudioItem>& 
 
         auto xmlString = libAudioItems.toString();
         output.writeText(xmlString, false, false, nullptr);
-    }
-    else
-    {
+    } else {
         throw std::runtime_error{"output stream failed to open correctly"};
     }
 }
