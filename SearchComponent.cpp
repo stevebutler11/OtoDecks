@@ -1,45 +1,36 @@
 #include "SearchComponent.h"
 
-SearchComponent::SearchComponent(std::shared_ptr<std::vector<LibraryAudioItem>>& _libItems) : libraryItems(_libItems)
-{
+SearchComponent::SearchComponent(std::shared_ptr<std::vector<LibraryAudioItem>> &_libItems) : libraryItems(_libItems) {
     addAndMakeVisible(searchBar);
 
     Typeface::Ptr tface = Typeface::createSystemTypefaceFor(BinaryData::DSDIGI_TTF, BinaryData::DSDIGI_TTFSize);
     searchBar.setFont(Font(tface));
-    searchBar.setText ("Search filenames...", juce::dontSendNotification);
+    searchBar.setText("Search filenames...", dontSendNotification);
     searchBar.setEditable(true, false, true);
     searchBar.onTextChange = [this] {
-        if (searchBar.getText() == "")
-        {
+        if (searchBar.getText() == "") {
             clear();
-        }
-        else
-        {
+        } else {
             search();
         }
     };
 }
 
-SearchComponent::~SearchComponent()
-{
+SearchComponent::~SearchComponent() {
 
 }
 
-void SearchComponent::paint(Graphics& g)
-{
+void SearchComponent::paint(Graphics &g) {
     g.fillAll(getLookAndFeel().findColour(ListBox::ColourIds::backgroundColourId));
 }
 
-void SearchComponent::resized()
-{
+void SearchComponent::resized() {
     searchBar.setBounds(0, 0, getWidth(), getHeight());
 }
 
-void SearchComponent::search()
-{
+void SearchComponent::search() {
     // if there already exists a search, clear it
-    if (!filteredItems->empty())
-    {
+    if (!filteredItems->empty()) {
         clear();
     }
 
@@ -50,7 +41,7 @@ void SearchComponent::search()
             begin(*libraryItems),
             end(*libraryItems),
             std::back_inserter(*filteredItems),
-            [searchString](auto const& item){
+            [searchString](auto const &item) {
                 auto fileName = std::string{item.getFileName()};
                 std::transform(fileName.begin(), fileName.end(), fileName.begin(), ::tolower);
                 return (fileName.find(searchString) != std::string::npos);
@@ -62,10 +53,8 @@ void SearchComponent::search()
     sendChangeMessage();
 }
 
-void SearchComponent::clear()
-{
-    if (!filteredItems->empty())
-    {
+void SearchComponent::clear() {
+    if (!filteredItems->empty()) {
         // swap the libraryItems pointer back
         filteredItems->swap(*libraryItems);
         filteredItems->clear();
