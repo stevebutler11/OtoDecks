@@ -52,7 +52,7 @@ public:
      */
     void resized() override;
 
-    //================ Button pure virtual functions ================
+    //================ Button::Listener pure virtual functions ================
 
     /**
      * Called when the button is clicked
