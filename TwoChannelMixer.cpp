@@ -43,8 +43,8 @@ void TwoChannelMixer::resized() {
 
     rightDeckVolume.setBounds(widthSlice * 5, heightSlice / 2, widthSlice * 3, heightSlice * 5);
     rightVolLabel.setBounds(widthSlice * 5, (int) (heightSlice * 5.5), widthSlice * 3, heightSlice / 4);
-    crossfader.setBounds(widthSlice, (int) (heightSlice * 6), widthSlice * 6, heightSlice);
-    crossfaderLabel.setBounds(widthSlice, (int) (heightSlice * 6.5), widthSlice * 6, heightSlice / 2);
+    crossfader.setBounds(widthSlice, (int) (heightSlice * 6), widthSlice * 6, (int) heightSlice / 2);
+    crossfaderLabel.setBounds(widthSlice, (int) (heightSlice * 6.5), widthSlice * 6, heightSlice / 4);
 }
 
 void TwoChannelMixer::sliderValueChanged(Slider *slider) {
