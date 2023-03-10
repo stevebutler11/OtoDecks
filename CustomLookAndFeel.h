@@ -23,6 +23,7 @@ public:
 
     /**
      * Overrides the function to draw linear sliders
+     * @param g JUCE Graphics instance
      * @param x x pos of linear slider
      * @param y y pos of linear slider
      * @param width width of linear slider
@@ -33,7 +34,7 @@ public:
      * @param style style of the slider
      * @param slider reference to the slider itself
      */
-    void drawLinearSlider(Graphics &, int x, int y, int width, int height, float sliderPos, float minSliderPos,
+    void drawLinearSlider(Graphics &g, int x, int y, int width, int height, float sliderPos, float minSliderPos,
                           float maxSliderPos, const Slider::SliderStyle style, Slider &slider) override;
 
 private:
