@@ -18,12 +18,25 @@ class DeckGUI : public Component,
                 public DragAndDropTarget,
                 public Timer {
 public:
+    /**
+     * DeckGUI constructor
+     * @param player instance of the DJAudioPlayer handling audio for the DJ deck
+     * @param formatManagerToUse keeps a list of available audio formats, and decides which one to use to open a given file
+     * @param cacheToUse used to manage multiple AudioThumbnail objects
+     */
     DeckGUI(DJAudioPlayer *player,
             AudioFormatManager &formatManagerToUse,
             AudioThumbnailCache &cacheToUse);
 
+    /**
+     * DeckGUI destructor
+     */
     ~DeckGUI() override;
 
+    /**
+     * Loads a file into the DJ deck
+     * @param file Represents a local file or directory
+     */
     void loadFile(File &file);
 
     //================ Component pure virtual functions ================
