@@ -8,7 +8,7 @@
  * A class to handle the audio functionality of a DJ deck. Works in tandem with the DeckGUI to represent a DJ deck
  * in the application
  */
-class DJAudioPlayer : public AudioSource, Timer {
+class DJAudioPlayer : public AudioSource {
 public:
     /**
      * DJAudioPlayer constructor
@@ -87,14 +87,14 @@ public:
      */
     void releaseResources() override;
 
-    //================ Timer pure virtual functions ================
+private:
 
     /**
-     * The user-defined callback routine that actually gets called periodically
+     * Set position of the track
+     * @param posInSecs position of the track in seconds, should be between 0.0 and the track length
      */
-    void timerCallback() override;
+    void setPosition(double posInSecs);
 
-private:
     // A class for keeping a list of available audio formats
     AudioFormatManager &formatManager;
 
@@ -107,24 +107,6 @@ private:
     // AudioSource that takes an input source and changes its sample rate
     ResamplingAudioSource resampleSource{&transportSource, false, 2};
 
-//    // bpm calc
-//    static const int instantSampleSize{1024};
-//    static const int previousEnergiesSize{43};
-//    float instantSampleFifo[instantSampleSize];
-//    float instantSampleFifoLeft[instantSampleSize];
-//    float instantSampleFifoRight[instantSampleSize];
-//    int instantSampleIndex{0};
-//    std::deque<float> previousEnergiesQueue{};
-//    int millis{0};
-
-    /**
-     * Set position of the track
-     * @param posInSecs position of the track in seconds, should be between 0.0 and the track length
-     */
-    void setPosition(double posInSecs);
-//
-//    //
-//    void pushNextEnergyIntoQueue(float leftSample, float rightSample);
 };
 
 #endif //GUI_APP_EXAMPLE_DJAUDIOPLAYER_H
