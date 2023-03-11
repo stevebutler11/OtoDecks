@@ -14,8 +14,6 @@ LibraryComponent::LibraryComponent(AudioFormatManager &_formatManager, DeckLoade
     tableComponent.getHeader().addColumn("Track Title", 1, 300);
     tableComponent.getHeader().addColumn("Duration", 2, 80);
     tableComponent.getHeader().addColumn("Extension", 3, 80);
-    tableComponent.getHeader().addColumn("Key", 4, 80);
-    tableComponent.getHeader().addColumn("BPM", 5, 80);
     tableComponent.getHeader().addColumn("Load To Left Deck", 6, 150);
     tableComponent.getHeader().addColumn("Load To Right Deck", 7, 150);
     tableComponent.getHeader().addColumn("Remove", 8, 80);
@@ -89,14 +87,6 @@ void LibraryComponent::paintCell(Graphics &g, int rowNumber, int columnId, int w
             break;
         case 3:
             g.drawText((*libraryItems)[rowNumber].getExtension(), 2, 0, width - 4, height,
-                       Justification::centredRight, true);
-            break;
-        case 4:
-            g.drawText((*libraryItems)[rowNumber].getKey(), 2, 0, width - 4, height,
-                       Justification::centredRight, true);
-            break;
-        case 5:
-            g.drawText(String{(*libraryItems)[rowNumber].getBPM()}, 2, 0, width - 4, height,
                        Justification::centredRight, true);
             break;
     }
@@ -184,32 +174,6 @@ void LibraryComponent::sortOrderChanged(int newSortColumnId, bool isForwards) {
                     const LibraryAudioItem &a,
                     const LibraryAudioItem &b
             ) { return a.getExtension() > b.getExtension(); });
-            break;
-        case 4:
-            if (isForwards) {
-                std::sort(libraryItems->begin(), libraryItems->end(), [](
-                        const LibraryAudioItem &a,
-                        const LibraryAudioItem &b
-                ) { return a.getKey() < b.getKey(); });
-                break;
-            }
-            std::sort(libraryItems->begin(), libraryItems->end(), [](
-                    const LibraryAudioItem &a,
-                    const LibraryAudioItem &b
-            ) { return a.getKey() > b.getKey(); });
-            break;
-        case 5:
-            if (isForwards) {
-                std::sort(libraryItems->begin(), libraryItems->end(), [](
-                        const LibraryAudioItem &a,
-                        const LibraryAudioItem &b
-                ) { return a.getBPM() < b.getBPM(); });
-                break;
-            }
-            std::sort(libraryItems->begin(), libraryItems->end(), [](
-                    const LibraryAudioItem &a,
-                    const LibraryAudioItem &b
-            ) { return a.getBPM() > b.getBPM(); });
             break;
     }
 }

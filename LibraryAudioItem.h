@@ -20,17 +20,12 @@ public:
      * @param _key
      * @param _bpm
      */
-    LibraryAudioItem(File &file, std::string &fileName, double duration, std::string &extension,
-                     std::string _key = "", double _bpm = 0.0);
+    LibraryAudioItem(File &file, std::string &fileName, double duration, std::string &extension);
 
     /**
      * LibraryAudioItem destructor
      */
     ~LibraryAudioItem();
-
-    void setKey(std::string &key);
-
-    void setBPM(double bpm);
 
     /**
      * Get the File of the LibraryAudioItem
@@ -62,10 +57,6 @@ public:
      */
     std::string getExtension() const;
 
-    std::string getKey() const;
-
-    double getBPM() const;
-
 private:
 
     // Represents a local file or directory
@@ -80,9 +71,6 @@ private:
     // extension of the JUCE File
     std::string extension;
 
-
-    std::string key;
-    double BPM;
 };
 
 #endif //GUI_APP_EXAMPLE_LIBRARYAUDIOITEM_H

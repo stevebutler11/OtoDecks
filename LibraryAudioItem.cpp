@@ -3,26 +3,14 @@
 LibraryAudioItem::LibraryAudioItem(File &_file,
                                    std::string &_fileName,
                                    double _duration,
-                                   std::string &_extension,
-                                   std::string _key,
-                                   double _bpm
+                                   std::string &_extension
 ) : file(_file),
     fileName(_fileName),
     duration(_duration),
-    extension(_extension),
-    key((std::string &) _key),
-    BPM(_bpm) {}
+    extension(_extension) {}
 
 LibraryAudioItem::~LibraryAudioItem() {
 
-}
-
-void LibraryAudioItem::setKey(std::string &_key) {
-    key = _key;
-}
-
-void LibraryAudioItem::setBPM(double _BPM) {
-    BPM = _BPM;
 }
 
 File LibraryAudioItem::getFile() {
@@ -49,12 +37,4 @@ std::string LibraryAudioItem::getDurationFormatted() const {
 
 std::string LibraryAudioItem::getExtension() const {
     return extension;
-}
-
-std::string LibraryAudioItem::getKey() const {
-    return key;
-}
-
-double LibraryAudioItem::getBPM() const {
-    return BPM;
 }

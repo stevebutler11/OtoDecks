@@ -31,11 +31,9 @@ void XmlParser::loadXmlFile(const File &xmlFile, std::vector<LibraryAudioItem> &
             }
             double duration = elem->getDoubleAttribute(XmlParser::DURATION_TAG);
             std::string extension = elem->getStringAttribute(XmlParser::EXTENSION_TAG).toStdString();
-            std::string key = elem->getStringAttribute(XmlParser::KEY_TAG).toStdString();
-            double BPM = elem->getDoubleAttribute(XmlParser::BPM_TAG);
 
             auto item = std::make_unique<LibraryAudioItem>(
-                    LibraryAudioItem{file, fileName, duration, extension, key, BPM});
+                    LibraryAudioItem{file, fileName, duration, extension});
 
             // add to LibraryAudioItems vector
             container.emplace_back(*item);
@@ -68,8 +66,6 @@ void XmlParser::saveXmlFile(const File &xmlFile, std::vector<LibraryAudioItem> &
             libAudioItem->setAttribute(XmlParser::FILENAME_TAG, item.getFileName());
             libAudioItem->setAttribute(XmlParser::DURATION_TAG, item.getDuration());
             libAudioItem->setAttribute(XmlParser::EXTENSION_TAG, item.getExtension());
-            libAudioItem->setAttribute(XmlParser::KEY_TAG, item.getKey());
-            libAudioItem->setAttribute(XmlParser::BPM_TAG, item.getBPM());
             libAudioItems.addChildElement(libAudioItem);
         }
 

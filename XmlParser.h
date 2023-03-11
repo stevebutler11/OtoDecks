@@ -34,8 +34,6 @@ public:
     inline static const Identifier FILENAME_TAG = "FILENAME";
     inline static const Identifier DURATION_TAG = "DURATION";
     inline static const Identifier EXTENSION_TAG = "EXTENSION";
-    inline static const Identifier KEY_TAG = "KEY";
-    inline static const Identifier BPM_TAG = "BPM";
 
     // absolute path for the users' music folder
     inline static const std::string USERS_MUSIC_DIRECTORY = File::getSpecialLocation(
