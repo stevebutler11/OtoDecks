@@ -49,7 +49,7 @@ git submodule update --init --remote --recursive
 3. build application
 
 ```bash
-mkdir .build && .build
+mkdir .build && cd .build
 cmake ..
 make
 ```
