@@ -34,7 +34,10 @@ OtoDecks is a DJ software application designed for the playback and mixing of mu
 
 ## Building
 
-Below are the steps to build and run for linux.
+Below are the steps to build and run (tested on ubuntu 22.04 and windows 11 WSL Ubuntu 22.04).
+
+> [!NOTE]  
+> You may be missing packages. If so, see [JUCE Dependencies on Linux](https://github.com/juce-framework/JUCE/blob/develop/docs/Linux%20Dependencies.md)
 
 1. clone the repo
 2. in the root directory, pull the juce submodule locally:
@@ -46,9 +49,9 @@ git submodule update --init --remote --recursive
 3. build application
 
 ```bash
-mkdir cmake-build-dev && cd make-build-dev
-
+mkdir .build && .build
 cmake ..
+make
 ```
 
 4. run application
